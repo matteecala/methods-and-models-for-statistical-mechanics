@@ -1,0 +1,647 @@
+% A LaTeX template for ARTICLE version of the MSc Thesis submissions to 
+% Politecnico di Milano (PoliMi) - School of Industrial and Information Engineering
+%
+% S. Bonetti, A. Gruttadauria, G. Mescolini, A. Zingaro
+% e-mail: template-tesi-ingind@polimi.it
+%
+% Last Revision: October 2021
+%
+% Copyright 2021 Politecnico di Milano, Italy. Inc. NC-BY
+
+\documentclass[11pt,a4paper]{article} 
+
+%------------------------------------------------------------------------------
+%	REQUIRED PACKAGES AND  CONFIGURATIONS
+%------------------------------------------------------------------------------
+% PACKAGES FOR TITLES
+\usepackage{titlesec}
+\usepackage{color}
+
+% PACKAGES FOR LANGUAGE AND FONT
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc} % Font encoding
+
+% PACKAGES FOR IMAGES
+\usepackage{graphicx}
+\graphicspath{{Images/}}
+\usepackage{eso-pic} % For the background picture on the title page
+\usepackage{subfig} % Numbered and caption subfigures using \subfloat
+\usepackage{caption} % Coloured captions
+\usepackage{transparent}
+
+% STANDARD MATH PACKAGES
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{bm}
+\usepackage[overload]{empheq}  % For braced-style systems of equations
+
+% PACKAGES FOR TABLES
+\usepackage{tabularx}
+\usepackage{longtable} % tables that can span several pages
+\usepackage{colortbl}
+
+% PACKAGES FOR ALGORITHMS (PSEUDO-CODE)
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+% PACKAGES FOR REFERENCES & BIBLIOGRAPHY
+\usepackage[colorlinks=true,linkcolor=black,anchorcolor=black,citecolor=black,filecolor=black,menucolor=black,runcolor=black,urlcolor=black]{hyperref} % Adds clickable links at references
+\usepackage{cleveref}
+\usepackage[square, numbers, sort&compress]{natbib} % Square brackets, citing references with numbers, citations sorted by appearance in the text and compressed
+\bibliographystyle{plain} % You may use a different style adapted to your field
+
+% PACKAGES FOR THE APPENDIX
+\usepackage{appendix}
+
+% PACKAGES FOR ITEMIZE & ENUMERATES 
+\usepackage{enumitem}
+
+% OTHER PACKAGES
+\usepackage{amsthm,thmtools,xcolor} % Coloured "Theorem"
+\usepackage{comment} % Comment part of code
+\usepackage{fancyhdr} % Fancy headers and footers
+\usepackage{lipsum} % Insert dummy text
+\usepackage{tcolorbox} % Create coloured boxes (e.g. the one for the key-words)
+\usepackage{amsfonts}
+\usepackage{bbm}
+
+%-------------------------------------------------------------------------
+%	NEW COMMANDS DEFINED
+%-------------------------------------------------------------------------
+% EXAMPLES OF NEW COMMANDS -> here you see how to define new commands
+\newcommand{\bea}{\begin{eqnarray}} % Shortcut for equation arrays
+\newcommand{\eea}{\end{eqnarray}}
+\newcommand{\e}[1]{\times 10^{#1}}  % Powers of 10 notation
+\newcommand{\mathbbm}[1]{\text{\usefont{U}{bbm}{m}{n}#1}} % From mathbbm.sty
+\newcommand{\pdev}[2]{\frac{\partial#1}{\partial#2}}
+% NB: you can also override some existing commands with the keyword \renewcommand
+
+%----------------------------------------------------------------------------
+%	ADD YOUR PACKAGES (be careful of package interaction)
+%----------------------------------------------------------------------------
+
+
+%----------------------------------------------------------------------------
+%	ADD YOUR DEFINITIONS AND COMMANDS (be careful of existing commands)
+%----------------------------------------------------------------------------
+
+
+% Do not change Configuration_files/config.tex file unless you really know what you are doing. 
+% This file ends the configuration procedures (e.g. customizing commands, definition of new commands)
+\input{Configuration_files/config}
+
+% Insert here the info that will be displayed into your Title page 
+% -> title of your work
+\renewcommand{\title}{Linear Algebra of Quantum Mechanics}
+% -> author name and surname
+\renewcommand{\author}{Matteo Calabrò}
+% -> MSc course
+\newcommand{\course}{Mathematical Engineering - Ingegneria Matematica}
+% -> advisor name and surname
+\newcommand{\advisor}{Prof. Silvia Lorenzani}
+% -> author ID
+\newcommand{\ID}{10806209}
+% -> academic year
+\newcommand{\YEAR}{2025-2026}
+% -> abstract (only in English)
+\renewcommand{\abstract}{This report presents a rigorous exposition of the lecture notes "Linear Algebra of Quantum Mechanics" by Vojkan Jaksic (2022), addressing three core areas: Hilbert space and operator theory, the trace functional and its inequalities, and quantum probability. The central motivation lies in the inadequacy of classical probability to describe quantum systems: while commuting observables admit a classical probabilistic treatment, the non-commutative structure of bounded linear operators on a Hilbert space gives rise to fundamentally new phenomenology, requiring dedicated analytic and algebraic tools. The scope is deliberately restricted to finite-dimensional Hilbert spaces, a mathematically justified choice, since finite dimensionality guarantees completeness of any inner product space and reduces spectral theory to the study of eigenvalues and eigenprojections of matrices. Despite this restriction, the theory is sufficiently rich to encompass quantum channels, quantum Markov chains, entanglement, and the foundational structures of quantum information theory. The report is organized as follows: Section 1 covers Hilbert spaces, linear maps, spectral theory, completely positive maps, and operator monotone functions; Section 2 treats the trace functional, Schatten p-norms, and key trace inequalities of quantum statistical mechanics; Section 3 develops quantum probability, including the lattice of quantum events, density matrices, Gleason's theorem, the Heisenberg uncertainty principle, quantum marginals, entanglement, and quantum Markov chains in the C*-algebra framework. }
+
+% -> key-words (only in English)
+\newcommand{\keywords}{Hilbert spaces · Spectral theory · Trace inequalities · Quantum probability · C*-algebras}
+
+%-------------------------------------------------------------------------
+%	BEGIN OF YOUR DOCUMENT
+%-------------------------------------------------------------------------
+\begin{document}
+
+%-----------------------------------------------------------------------------
+% TITLE PAGE
+%-----------------------------------------------------------------------------
+% Do not change Configuration_files/TitlePage.tex (Modify it IF AND ONLY IF you need to add or delete the Co-advisors)
+% This file creates the Title Page of the document
+\input{Configuration_files/title_page}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%     THESIS MAIN TEXT     %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%-----------------------------------------------------------------------------
+% INTRODUCTION
+%-----------------------------------------------------------------------------
+\begin{comment}
+\label{sec:introduction}
+The mathematical framework of quantum mechanics rests on the theory of Hilbert spaces and linear operators. This report offers a rigorous and structured exposition of the key concepts developed in the lecture notes "Linear Algebra of Quantum Mechanics" by Vojkan Jaksic (July 2022), covering three main areas: the linear-algebraic foundations of Hilbert spaces and operator theory, the theory of the trace functional and associated inequalities, and the probabilistic formulation of quantum mechanics known as quantum probability. \\
+
+The motivation for this study arises from a fundamental observation: classical probability is insufficient to describe the statistical behavior of quantum systems. While a classical probabilistic framework is adequate for commuting observables, the non-commutative character of quantum observables — encoded in the structure of bounded linear operators on a Hilbert space — introduces entirely new phenomenology. These lectures bridge the gap between abstract mathematical structures and their physical interpretations, providing the analytic and algebraic tools necessary to formulate and study quantum systems rigorously. \\
+
+The scope of the notes is deliberately restricted to finite-dimensional Hilbert spaces. This choice is mathematically justified: in finite dimensions, any inner product space is automatically complete (and hence a Hilbert space), and spectral theory reduces to the study of eigenvalues and eigenprojections of matrices. Despite this restriction, the finite-dimensional theory is rich enough to introduce quantum channels, quantum Markov chains, entanglement, and the foundational structures of quantum information theory. \\
+
+The report is organized as follows. Section 2 presents the theory of Hilbert spaces, linear maps, spectral theory, completely positive maps, and operator monotone functions. Section 3 is devoted to the trace functional, its properties, the associated Schatten p-norms, and fundamental trace inequalities of quantum statistical mechanics. Section 4 develops quantum probability theory: the lattice of quantum events, density matrices, Gleason's theorem, the Heisenberg uncertainty principle, quantum marginals and entanglement, quantum stochastic processes, and quantum Markov chains in the $C^*$-algebra framework.
+\section{Introduction}
+\end{comment}
+%-----------------------------------------------------------------------------
+% EQUATIONS
+%-----------------------------------------------------------------------------
+\pagebreak
+\clearpage
+\null
+\clearpage
+\section{Hilbert Spaces and Linear Maps}
+\label{sec:hilbert spaces and linear maps}
+\subsection{Hilbert Spaces and Orthonormal Basis}
+A Hilbert space $\mathcal{H}$ is a complex vector space equipped with an inner product $\langle \cdot \ ,\ \cdot \rangle$ that is linear in the second argument and anti-linear in the first, along with the property of completeness with respect to the induced norm $||\phi|| = \sqrt{<\phi,\ \phi>}$. In the finite-dimensional setting considered throughout these lectures, completeness is automatic: every finite-dimensional normed space is complete. Consequently, any finite-dimensional inner product space over $\mathbb{C}$ is a Hilbert space. \\
+
+Given $dim(\mathcal{H}) = N$, an orthonormal basis (ONB) $\{e_n\}_{n=1}^N$ satisfies $||e_n|| = 1$ and $<e_n,\ e_m>\ =\ 0$ for $n \neq m$. Every vector $\phi$ in $\mathcal{H}$ is decomposed uniquely as $$\phi \ =\  \sum_{n=1}^{N}\alpha_n e_n,$$ where the coefficients are given by the Fourier formula $\alpha_n\ =\ <e_n,\ \phi>$. \\ The inner product of two vectors $\phi$, $\psi$ takes the form $$<\phi,\ \psi>\ =\ \sum_{n=1}^{N} \overline{<e_n,\ \phi>} <e_n,\ \psi>,$$ which is the Parseval identity in finite dimensions. \\
+
+The space of all linear maps $A: \mathcal{H} \rightarrow \mathcal{K}$ between Hilbert spaces $\mathcal{H}$ and $\mathcal{K}$ is denoted $B(\mathcal{H}, \mathcal{K})$, and carries the operator norm $$||A||\ =\ \sup_{||\phi||=1} ||A \phi||_\mathcal{K}$$ When $\mathcal{H} = \mathcal{K}$ one writes $B(\mathcal{H})$. A fundamental structural fact is that any $\mathcal{A}\in B(\mathcal{H}, \mathcal{K})$ is completely determined by its matrix elements $a_{nm}\ =\ \langle f_m,\ A e_n\rangle$ with respect to the ONBs chosen of $\mathcal{H}$ and $\mathcal{K}$. 
+
+\subsection{Adjoints and Special Classes of Operators}
+For $A \in B(\mathcal{H}, \mathcal{K})$, the adjoint $A^* \in B(\mathcal{K}, \mathcal{H})$ is defined by the relation $$<\phi,\ A \psi>_\mathcal{K}\ =\ <A^* \phi, \ \psi>_\mathcal{H},$$ for all $\phi \in K$, $\psi \in H$. The adjoint satisfies: $A^{**} = A$, $(\alpha A)^*\ =\ \overline{\alpha} A^*$, $||A||\ =\ ||A^*||$, and $||A A^*||\ =\ ||A||^2$. This last identity is the $C^*$-identity and is fundamental to algebraic theory. \\
+
+Several distinguished classes of operators on $B(\mathcal{H})$ appear throughout the theory. An operator $A$ is self-adjoint if $A\ =\ A^*$, which is equivalent to $\langle\phi\ |\ A \psi\rangle \ =\ \langle A \phi\ |\ \psi \rangle$ for all $\phi$, $\psi \in \mathcal{H}$; self-adjoint operators model observables in quantum mechanics. $A$ is normal if $A A^*\ =\ A^* A$, and every element of $B(\mathcal{H})$ decomposes as $$A\ =\ \frac{A + A^*}{2} + \frac{1}{2i}(A - A^*),$$ showing $A$ as a linear combination of two self-adjoint operators. \\ A projection satisfies $P^2 = P$; an orthogonal projection is additionally self-adjoint. Rank-one projections take the form $P\ =\  |\phi\rangle\langle\psi|$ with $<\phi \ |\ \psi>\ =\ 1$, and are orthogonal $\Leftrightarrow$ $\phi \ =\ \psi$. An operator $U$ is unitary if $U U^*\ =\ I$, or equivalently $U^* U\ =\ I$ (in finite dimensions, these are equivalent). Unitaries preserve inner products and model symmetries of quantum systems.
+
+\subsection{Spectral Theory}
+Spectral theory is the cornerstone of quantum mechanics as it underpins the measurement postulate: eigenvalues represent possible outcomes of measurements, and eigenprojections represent the corresponding events. $A$ scalar $\lambda \in \mathbb{C}$ belongs to the spectrum $sp(A)$ if $(A - \lambda \mathbbm{1}): \mathcal{H} \rightarrow \mathcal{H}$ is not invertible, which in finite dimensions is equivalent to $\lambda$ being an eigenvalue. The geometric multiplicity $m(\lambda)\ =\ dim(E_\lambda)$ is the dimension of the eigenspace $E_\lambda$, while the algebraic multiplicity $\mu(\lambda)\ =\ dim(G_\lambda)$ is the dimension of the generalized eigenspace $$G_\lambda \ =\ \{\phi \in \mathcal{H} : (A - \lambda)^k \phi \ =\ 0 \text{ for some } k \in \mathbb{N}\}.$$ One always has $m(\lambda)\ \leq\ \mu(\lambda)$, with equality (semi-simplicity) holding for all eigenvalues of self-adjoint operators. The sum of algebraic multiplicities equals to $dim(\mathcal{H})$. \\
+
+The resolvent function $z \rightarrow (z - A)^{-1} \in B(\mathcal{H})$, defined on the resolvent set $S(A) = \mathbb{C}\setminus sp(A)$, is analytic and satisfies the resolvent identity: $$(z - A)^{-1} - (\omega - A)^{-1}\ =\ (\omega - z)(z - A)^{-1}(\omega - A)^{-1}.$$ The eigenprojection $P_{\lambda_j}$ is defined by a contour integral of the resolvent around the eigenvalue $\lambda_j$. These projections satisfy $P_{\lambda_j}^2 \ =\ P_{\lambda_j},\ P_{\lambda_j} P_{\lambda_k}\ =\ 0$ for $j \neq k$, and $\sum_j P_{\lambda_j}\ =\ \mathbbm{1}$. The spectral decomposition reads $A\ =\ \sum_j (\lambda_j P_{\lambda_j} + D_{\lambda_j})$, where $D_{\lambda_j}$ is the nilpotent part (eigen-nilpotent). This formulation, coordinate-free and independent of any choice of Jordan basis, is the abstract Jordan normal form. \\
+
+For self-adjoint $A$, the spectral theorem takes a particularly clean form: all eigenvalues are real, all eigenvalues are semi-simple (so no nilpotent parts appear), the eigenprojections are orthogonal $(P_{\lambda_j}^*\ =\ P_{\lambda_j})$, the eigenspaces are mutually orthogonal, and $\mathcal{H}$ decomposes as $$\mathcal{H}\ =\ \oplus \sum_j E_{\lambda_j}.$$ This permits functional calculus: for any $f: \mathbb{R} \rightarrow \mathbb{C}$, one defines $f(A)\ =\ \sum_j f(\lambda_j) P_{\lambda_j}$, which satisfies $$[f(A)]^*\ =\ \overline{f(A)},\ (fg)(A)\ =\ f(A)g(A), \text{ and } (f+g)(A)\ =\ f(A) + g(A).$$ Functional calculus is essential for defining exponentials, logarithms, and fractional powers of operators.
+
+\subsection{Completely Positive Maps and Quantum Channels}
+The study of linear maps $\Phi: B(\mathcal{H}) \rightarrow B(\mathcal{H})$, called superoperators in the physics literature, is central to quantum information theory and quantum measurement. The adjoint $\Phi^*$ is defined with respect to the Hilbert-Schmidt inner product $\langle A\ |\ B\rangle \ =\ tr(A^*B)$. $\Phi$ is positive if $X \geq 0 \Rightarrow \Phi(X)\ \geq \ 0$. However, positivity alone is insufficient for quantum-mechanical consistency. \\
+
+For any $n \geq 1$, the amplification $\Phi^n: B(\mathcal{H}^n) \rightarrow B(\mathcal{H}^n)$ acts on block matrices by applying $\Phi$ entrywise. $\Phi$ is $n$-positive if $\Phi^n$ is positive. The critical notion is complete positivity (CP): $\Phi$ is CP if it is $n$-positive for all $n$, equivalently if it is $N$-positive where $N\ =\ dim(\mathcal{H})$. The transpose map on $B(\mathbb{C}^2)$ is positive but not $2$-positive, illustrating the necessity of the stronger condition. A completely positive unital map $(\Phi(\mathbbm{1})\ =\ \mathbbm{1})$ is called a quantum channel in the Heisenberg picture; its adjoint $\Phi^*$ is the quantum channel in the Schrodinger picture. \\
+
+The Kraus-Stinespring theorem provides the fundamental structural characterization of CP maps. A map $\Phi$ is CP $\Leftrightarrow$ it admits a Kraus decomposition: $$\Phi(X)\ =\ \sum_{j=1}^m V_j X V_j^* \text{ for some operators } V_1, ..., V_m \in B(\mathcal{H}).$$ The minimal $m$ in such a representation is the rank $r(\Phi)$. Kraus operators are unique up to unitary mixing: if ${V_k}$ and ${W_k}$ are both Kraus families for $\Phi$, then $W_k\ =\ \sum_j \alpha_{kj} V_j$ for a unitary matrix $\alpha$. Equivalently, the Stinespring dilation theorem states that $\Phi$ is CP $\Leftrightarrow$ there exists $V: \mathcal{H} \rightarrow \mathcal{H} \otimes \mathbb{C}^r$ such that $\Phi(X)\ =\ V^*(X \otimes \mathbbm{1})V$. \\
+
+The Perron-Frobenius theory extends from non-negative matrices to positive maps on $B(\mathcal{H})$. For a positive unital map $\Phi$, the spectrum lies in the closed unit disk and there exists a non-negative non-zero fixed point of $\Phi^*$. A map $\Phi$ is irreducible if no non-trivial orthogonal projection $P$ satisfies $\Phi(P)\ \leq\ \lambda P$, equivalently if the only $\Phi$-invariant hereditary $*$-subalgebras are ${0}$ and $B(\mathcal{H})$. For an irreducible CP map, the Perron-Frobenius theorem guarantees a unique strictly positive fixed point $X$ of $\Phi^*$ and a spectral gap structure, generalizing the classical Markov chain theory. Primitivity (period $p\ =\ 1$) $\Rightarrow$ exponentially fast convergence: $$||\Phi^{(n)}(X) - tr(\overline{X}X)\mathbbm{1}||\ =\ \mathcal{O}(e^{-rn}).$$
+
+\subsection{Operator Monotone and Operator Convex Functions}
+A function $f: (a,b) \rightarrow \mathbb{R}$ is operator monotone if $A\ \geq\ B$ with $sp(A)$, $sp(B) \in (a,b)$ implies $f(A) \geq f(B)$ in the sense of operator ordering. Operator monotonicity is strictly stronger than scalar monotonicity: the functions $f(x) = x^2$ and $f(x) = e^x$ are monotone but not operator monotone. Important examples of operator monotone functions on $(0, \infty)$ include $$f(x)\ =\ -\frac{1}{x},\ f(x)\ =\ x^p\ \text{ for } p \in [0,1],\ \text{ and } f(x)\ =\ log(1 + x).$$ \\
+
+The proof that $f(x)\ =\ x^p$ is operator monotone for $0 < p < 1$ uses the integral representation $$x^p\ =\ \frac{sin(\pi p)}{p} \int_0^\infty t^p \left[\frac{1}{t}-\frac{1}{t+x}\right] dt,$$ which combined with the operator monotonicity of $x \rightarrow -\frac{1}{x+t}$ and functional calculus yields $$A^p - B^p\ =\ \frac{sin(\pi p)}{p} \int [(B+t)^{-1} - (A+t)^{-1}] dt\ \geq\ 0 \text{ whenever } A \geq B.$$ \\
+
+The complete characterization is given by Loewner's theorem, which states that $f: (0,\infty) \rightarrow \mathbb{R}$ is operator monotone $\Leftrightarrow f$ extends analytically to $\mathbb{C} \setminus (-\infty, 0]$ with $Im(f(z)) \geq 0$ whenever $Im(z) > 0$ (the Herglotz property). An equivalent integral representation is $$f(x)\ =\ b + ax + \int_0^\infty \frac{tx - 1}{t + x} d \mu(t) \ \text{ for } b \in \mathbb{R},\ a \geq 0, \text{ and a finite Borel measure } \mu \text{ on } (0, \infty).$$ Operator convexity and concavity are defined analogously: $f$ is operator convex if $$f(\theta A + (1-\theta)B)\ \leq\ \theta f(A) + (1-\theta) f(B).$$ A fundamental result connects operator monotonicity to operator convexity: $f$ is operator convex on $(0, \infty)$ with $f(0)\ =\ 0 \Leftrightarrow g(x)\ =\ \frac{f(x)}{x}$ is operator monotone; $f$ is operator concave $\Leftrightarrow f$ is operator monotone.
+\pagebreak
+\clearpage
+\null
+\clearpage
+\section{Trace}
+\label{sec:trace}
+\subsection{Definition and Fundamental Properties}
+The trace of a linear map $A \in B(\mathcal{H})$ is defined by $$tr(A)\ =\ \sum_{n=1}^N \langle \phi_n | A \phi_n \rangle\ \text{ for any ONB }\ \{\phi_n\}_{n=1}^N.$$ A fundamental result, provable by a simple basis-change computation, is that this sum is independent of the chosen ONB, making the trace an intrinsic property of the operator. This basis-independence can be rephrased: $tr(UAU^{-1})\ =\ tr(A)$ for any unitary $U \in B(\mathcal{H})$. \\
+
+For a self-adjoint operator $A$ with spectral representation $A\ =\ \sum_{\lambda \in sp(A)} \lambda P_\lambda$, the trace is $$tr(A)\ =\ \sum_{\lambda \in sp(A)} \lambda dim(P_\lambda),\ \text{ i.e., the sum of eigenvalues counted with multiplicity.}$$ When $A$ is identified with a matrix $[a_{ij}]$, the trace equals the sum of diagonal entries. The trace is a linear functional on $B(\mathcal{H}): tr(\lambda A + \mu B)\ =\ \lambda tr(A) + \mu tr(B)$. It satisfies $tr(A^*)\ =\ \overline{tr(A)}$ and the crucially important cyclicity property $tr(AB)\ =\ tr(BA)$ for all $A, B \in B(\mathcal{H})$. Cyclicity allows reordering of operator products inside a trace and is the key to many trace inequality proofs. Monotonicity holds: $A \geq B\ \Rightarrow\ tr(A) \geq tr(B)$. \\
+
+The trace extends the notion of integration to the non-commutative setting. The trace provides a canonical inner product on $B(\mathcal{H}):\ \langle A|B \rangle\ =\ tr(A^*B)$. With this structure, $B(\mathcal{H})$ itself becomes a Hilbert space (the Hilbert-Schmidt space), and superoperators $\Phi:\ B(\mathcal{H}) \rightarrow B(\mathcal{H})$ can be studied as operators on this inner product space. This viewpoint is essential for the theory of quantum channels and their spectral analysis.
+
+\subsection{Schatten p-Norms}
+For $A \in B(\mathcal{H})$, the absolute value is $|A|\ =\ \sqrt{(A^*A)}$, which is a positive semi-definite operator. The eigenvalues of $|A|$, denoted $\{\mu_j(A)\}_{j=1}^N$ (listed with multiplicities), are the singular values of $A$.\\ The trace norm is $tr(|A|)\ =\ \sum_j \mu_j(A)$. For $0 < p < \infty$, the Schatten $p$-norm is defined by $$||A||_p\ =\ \left( tr(|A|^p) \right)^{1/p}\ =\ \left( \sum_j \mu_j(A)^p \right)^{1/p}.$$ The operator norm corresponds to the $p = \infty$ case: $$||A||_\infty\ =\ \sup_j \mu_j(A)\ =\ \sup_{||\psi||\ =\ 1} ||A \psi||.$$ \\
+
+The function $p \rightarrow ||A||_p$ is real analytic, monotonically decreasing in $p$, and satisfies $\lim_{p\rightarrow\infty} ||A||_p\ =\ ||A||_\infty$. For any $A \in B(\mathcal{H})$, $|tr(A)| \leq ||A||_1\ =\ tr(|A|)$. This follows from the polar decomposition $A\ =\ U|A|$ and the Cauchy-Schwarz inequality applied with an ONB of eigenfunctions of $|A|$. The Schatten norms generalize the classical $L^p$ norms: taking diagonal matrices on $\mathbb{C}^N$ recovers the $l^p$ norm of the sequence of diagonal entries. \\
+
+The Schatten norms satisfy the Holder inequality: $||AB||_1 \leq ||A||_p ||B||_q$ whenever $\frac{1}{p} + \frac{1}{q}\ =\ 1$ and $p,\ q \in [1, \infty]$. They also satisfy the Minkowski (triangle) inequality: $||A + B||_p \leq ||A||_p + ||B||_p$ for $p \in [1, \infty]$. Consequently, $||\ \cdot\ ||_p$ is indeed a norm on $B(\mathcal{H})$ for $p \in [1, \infty)$. The proof of the Holder inequality uses the Hadamard three-line theorem from complex analysis, a result that has wide applications in quantum physics. The normed spaces $(B(\mathcal{H})$, $||\ \cdot\ ||_p)$ are non-commutative analogs of the $l^p$ spaces studied in classical analysis. Only the $p = 2$ case corresponds to an inner product, namely the Hilbert-Schmidt inner product $\langle A|B \rangle\ =\ tr(A^*B)$.
+
+\subsection{Trace Inequalities}
+Several deep and physically important inequalities involving the trace are collected in Lecture 2. Each plays a fundamental role in quantum statistical mechanics and quantum information theory. \\
+
+The Peierls-Bogolyubov inequality states: $$\text{ for self-adjoint } A \text{ and } B,\ \ log\frac{tr(e^A e^B)}{tr(e^B)} \geq \frac{tr(A e^B)}{tr(e^B)}.$$ This is a quantum analog of Jensen's inequality for exponential functions and is used in the study of free energy bounds. \\
+
+Klein's inequality states: for $A > 0$ and $B > 0$, $tr(A log A - A log B) \geq tr(A - B)$, with equality $\Leftrightarrow A = B$. This is the operator analog of the classical inequality $x log(\frac{x}{y}) \geq x - y$ and is the foundation of quantum relative entropy. Here $tr(A log A)$ is defined via functional calculus with the convention $0 log 0 = 0$, and $$tr(A log B)\ =\ \sum_j log\lambda_j(B) \langle \psi_j|A \psi_j \rangle$$ where $B \psi_j = \lambda_j(B) \psi_j$, with the convention that the expression equals $-\infty$ if $\lambda_j(B) = 0$ and $\langle \psi_j|A \psi_j \rangle > 0$. \\
+
+The Golden-Thompson inequality asserts: for $A$ and $B$ self-adjoint, $tr(e^{A+B}) \leq tr(e^A e^B)$, with equality $\Leftrightarrow A$ and $B$ commute. The proof uses the Lie-Trotter product formula: $$\lim_{n\rightarrow \infty} (e^{\frac{A}{n}} e^{\frac{B}{n}})^n = e^{A+B},$$ and deeper results relating exponential products. This inequality is fundamental in quantum statistical mechanics for bounding partition functions. \\
+
+The Araki-Lieb-Thirring inequality states: for $A \geq 0$, $B \geq 0$, $p > 0$, $r \geq 1$, $$tr \left( (A^{\frac{1}{2}} B A^{\frac{1}{2}})^{rp} \right) \leq tr \left( (A^{\frac{r}{2}} B^r A^{r/2})^p \right).$$ This generalizes the Golden-Thompson inequality and is used to prove monotonicity of quantum relative entropies. Together, these inequalities constitute the technical backbone of quantum entropy theory.
+\pagebreak
+\section{Quantum Probability}
+\label{sec:quantum probability}
+\subsection{The Lattice of Quantum Events}
+Classical probability begins with a sample space $\Omega\ =\ {\omega_1,\ ...,\ \omega_L}$, where events are subsets of $\Omega$ and probabilities are assigned to elementary events. Quantum probability replaces this structure with a Hilbert space $\mathcal{H}$. The quantum events are the self-adjoint projections $P \in B(\mathcal{H})$, equivalently the closed subspaces of $\mathcal{H}$, via the identification $P \Leftrightarrow Ran(P)$. The inverse correspondence assigns to each subspace $\mathcal{K} \in \mathcal{H}$ the orthogonal projection $P_\mathcal{K}$ defined by the decomposition $\mathcal{H}\ =\ \mathcal{K} + \mathcal{K}^\perp$. \\
+
+The set $L(\mathcal{H})$ of all quantum events carries a partial order $P \leq Q \Leftrightarrow Ran(P)$ subset $Ran(Q)$, with maximal element $\mathbbm{1}$ and minimal element $0$. The lattice operations are: $P \wedge Q\ =\ \text{ projection onto }\ Ran(P) \cap Ran(Q)$, and $P \cup Q =$ projection onto the subspace spanned by $Ran(P) \cup Ran(Q)$. $L(\mathcal{H})$ is an orthocomplemented lattice: the orthocomplement of $P$ is the projection $P^\perp$ onto $Ran(P)^\perp$, satisfying $(P^\perp)^\perp\ =\ P$, $P \wedge P^\perp = 0$, $P \vee P^\perp\ =\ \mathbbm{1}$, and De Morgan's laws. \\
+
+The critical structural difference from classical probability is the failure of distributivity: in general, $$P \wedge (Q \vee R) \neq (P \wedge Q) \vee (P \wedge R) \text{ for } dim(\mathcal{H}) \geq 2.$$ A concrete counterexample in $\mathbb{C}^2$ uses three rank-one projections determined by non-collinear unit vectors: $P \wedge Q = 0$, $P \wedge R = 0$, while $Q \vee R = \mathcal{H}$, so $P \wedge (Q \vee R) = P$ but $(P \wedge Q) \vee (P \wedge R) = 0$. This failure of distributivity is the mathematical origin of quantum weirdness: the incompatibility of quantum propositions that cannot be simultaneously sharp.
+
+\subsection{Density Matrices and Gleason's Theorem}
+A quantum probability measure (QPM) is a map $\mu:\ L(\mathcal{H}) \rightarrow [0,1]$ satisfying $\mu(0) = 0,\ \mu(\mathbbm{1}) = 1$, and additivity: $\mu(P_1 +\ ... \ + P_n)\ =\ \mu(P_1) +\ ... \ + \mu(P_n)$ for mutually orthogonal projections $P_1,\ ...,\ P_n$.\\ A density matrix $\omega \in B(\mathcal{H})$ is a positive semi-definite operator with $tr(\omega) = 1$. Any density matrix defines a QPM by $\mu(P)\ =\ tr(\omega P)$. \\
+
+The remarkable result of Gleason (1957) states the converse: if $dim(\mathcal{H}) \geq 3$ and $\mu$ is any QPM on $L(\mathcal{H})$, then there exists a unique density matrix $\omega$ such that $\mu(P)\ =\ tr(\omega P)$ for all $P \in L(\mathcal{H})$. This theorem has profound implications: it means that the probabilistic content of quantum mechanics, as embodied by QPMs, is completely captured by density matrices, with no room for hidden-variable theories that assign definite ($0$ or $\mathbbm{1}$) values to all projections simultaneously (Kochen-Specker theorem). \\
+
+Gleason's theorem fails in dimension 2: there exist QPMs on $L(\mathbb{C}^2)$ not induced by any density matrix. The Bloch sphere parametrization is instructive here. Density matrices on $\mathbb{C}^2$ correspond bijectively to vectors in the unit ball $$B\ =\ {\vec a \in \mathbb{R}^3 :\ |\vec a| \leq 1}\ \text{ via }\ \omega_{\vec a}\ =\ \frac{1}{2} \left( \mathbbm{1} + \vec a \cdot \vec \sigma \right)$$ where $\vec \sigma = (\sigma_x,\ \sigma_y,\ \sigma_z)$ are the Pauli matrices. The extreme points (pure states, rank-one projections) correspond to unit vectors $|\vec a|\ =\ 1$, forming the Bloch sphere $S$. A QPM can be defined on $L(\mathbb{C}^2)$ by a non-continuous function on $S$ that assigns $0$ or $1$ to each rank-one projection compatibly; such a function cannot be expressed as $P\ \rightarrow\ tr(\omega P)$ since the latter is always continuous in the projection.
+
+\subsection{Quantum Random Variables and Commutativity}
+In quantum probability, a quantum random variable (qrv) is a self-adjoint operator $A \in B(\mathcal{H})$. Given a QPM $\omega$ (density matrix), the statistics of $A$ is characterized by the probability measure $P_A$ on $sp(A)\ =\ {\lambda_1,\ ...,\ \lambda_n}$ defined by $P_A({\lambda_k})\ =\ tr(\omega P_{\lambda_k})$, where $A\ =\ \sum_{k=1}^n \lambda_k P_{\lambda_k}$ is the spectral decomposition. The random variable $\chi_A:\ {1,\ ...,\ n} \rightarrow \mathbb{R}$ defined by $\chi_A(k)\ =\ \lambda_k$ together with the probability space $({1,\ ...,\ n},\ P_A)$ constitutes the classical probabilistic description of $A$'s quantum statistics. \\
+
+A fundamental question is when two qrv $A$ and $B$ can be described by a single classical probability space. The answer, given by Proposition 24, is elegant: $A$ and $B$ commute $\Leftrightarrow$ they share a common ONB of eigenvectors, i.e., there exists an ONB $\{\phi_n\}_{n=1}^N$ such that $A \phi_n\ =\ \lambda_n \phi_n$ and $B \phi_n\ =\ \mu_n \phi_n$ for all $n$. In this case, the classical probability space $({1,\ ...,\ N},\ P_{A/B})$ with $P_{A/B}(j)\ = \ tr(\omega |\phi_j \rangle \langle \phi_j|)$ simultaneously describes both $A$ and $B$ via $\chi_A(j)\ =\ \lambda_{k(j)}$ and $\chi_B(j)\ =\ \mu_{k(j)}$. \\
+
+Conversely, if $A$ and $B$ do not commute, no classical probability space can simultaneously describe their joint statistics for all choices of density matrix $\omega$. This is the mathematical content of the statement that quantum probability is irreducibly non-classical when non-commuting observables are considered together. The Heisenberg uncertainty principle is a quantitative expression of this: for self-adjoint $A$, $B$, one has $$Var_{\omega(A)}^{\frac{1}{2}} Var_{\omega(B)}^{\frac{1}{2}}\ \geq\ \frac{1}{2}|tr(\omega [i(A,B)])|,$$ where $[A,\ B]\ =\ AB - BA$ is the commutator.
+
+\subsection{Quantum Marginals and Entanglement}
+In classical probability, a joint distribution $P$ on $\Omega_1 \times \Omega_2$ has marginals $P_1(\omega) = \sum_{\omega'} P(\omega, \omega')$ and\linebreak $P_2(\omega') = \sum_\omega P(\omega, \omega')$. The quantum analog replaces the product space $\Omega_1 x \Omega_2$ with the tensor product $\mathcal{H} = \mathcal{H}_1 \otimes \mathcal{H}_2$, and the operation of summing over one variable with the partial trace. \\
+
+For $A \in B(\mathcal{H}_1 \otimes \mathcal{H}_2)$, the partial traces $A_1\ =\ tr_{\mathcal{H}_2}(A) \in B(\mathcal{H}_1)$ and $A_2\ =\ tr_{\mathcal{H}_1}(A) \in B(\mathcal{H}_2)$ are uniquely characterized by $tr_\mathcal{H}(A(X \otimes \mathbbm{1})) = tr_{\mathcal{H}_1}(A_1 X)$ for all $X \in B(\mathcal{H}_1)$, and analogously for $A_2$. Explicit formulas in terms of ONBs are available. The partial trace preserves self-adjointness and positivity. Consequently, if $\omega$ is a density matrix on $\mathcal{H}_1 \otimes \mathcal{H}_2$, then $\omega_1\ =\ tr_{\mathcal{H}_2}(\omega)$ and $\omega_2\ =\ tr_{\mathcal{H}_1}(\omega)$ are density matrices on $\mathcal{H}_1$ and $\mathcal{H}_2$ respectively, called quantum marginals of $\omega$. \\
+
+In classical probability, a pure state (a Dirac mass) has pure marginals. In quantum probability, this fails dramatically. A QPM $\omega$ is pure if $\omega\ =\ |\psi \rangle \langle \psi|$ for some unit vector $\psi \in \mathcal{H}$. Consider $\mathcal{H}_1 = \mathcal{H}_2 = \mathbb{C}^2$ with standard basis ${e_1, e_2}$ and the Bell state $\psi\ =\ \frac{1}{\sqrt2}(e_1 \otimes e_2 + e_2 \otimes e_1)$. The pure QPM $\omega\ =\ |\psi \rangle \langle \psi|$ has marginals $\omega_1\ =\ \omega_2\ =\ \frac{1}{2} \mathbbm{1}$, which is the chaotic (maximally mixed) state with maximal entropy $log 2$. This is entanglement: a pure state of the composite system can have maximally mixed (and hence maximally uncertain) subsystem states. \\
+
+The quantum entropy of a QPM $\omega$ is $$S(\omega)\ =\ -tr(\omega log \omega)\ =\ -\sum_j \lambda_j(\omega) log \lambda_j(\omega).$$ It vanishes for pure states and equals $log N$ for the chaotic state $\frac{1}{N}\mathbbm{1}$ on an $N$-dimensional space. Entanglement is quantified precisely through the marginal entropy: the entanglement entropy of $\psi$ with respect to the bipartition $\mathcal{H}_1 \otimes \mathcal{H}_2$ is $S(\omega_1)\ =\ S(\omega_2)$. For the Bell state, this equals $log 2$, the maximum possible for a qubit subsystem.
+
+\subsection{Quantum Stochastic Processes and Quantum Markov Chains}
+A classical stochastic process (CSP) is a family $(\Omega^N,\ P_N)_{N\geq1}$ of probability spaces satisfying the compatibility condition: $$P_N(\omega) = \sum_{\omega' \in \Omega^M} P_{N+M}(\omega,\ \omega')\ \ \text{ for all } N,\ M \geq 1.$$ Stationarity requires additionally $P_M(\omega')\ =\ \sum_\omega P_{N+M}(\omega,\ \omega')$. For stationary CSPs, the entropy $S(P_N)$ is subadditive: $S(P_{N+M}) \leq S(P_N) + S(P_M)$, whence the specific entropy $$s\ =\ \lim_{N\rightarrow\infty} \frac{1}{N} S(P_N) = \inf_{N\geq1} \frac{S(P_N)}{N}\ \text{ exists and lies in } [0,\ log|\Omega|].$$ \\
+
+The quantum analog replaces $\Omega^N$ with $\mathcal{H}^N\ =\ \mathcal{H} \otimes\ ...\ \otimes \mathcal{H}$ ($N$ times). A quantum stochastic process (QSP) is a family $(\mathcal{H}^N,\ \omega_N)_{N\geq1}$ of density matrices on successive tensor powers, satisfying the compatibility condition $\omega_N\ =\ tr_{H_M}(\omega_{N+M})$. Stationarity adds the condition $\omega_M\ =\ tr_{\mathcal{H}_N}(\omega_{N+M})$. The i.i.d. QSP is given by $\omega_N\ =\ \rho^{\otimes N}$ for a fixed density matrix $\rho$ on $\mathcal{H}$; its specific entropy equals $S(\rho)$. The specific quantum entropy of a stationary QSP is defined by the same formula as in the classical case. \\
+
+Quantum Markov chains (QMC) are constructed over a pair of finite-dimensional $C^*$-algebras $U$ and $R$ (the observable algebra and the ancilla algebra). The construction requires a completely positive unital map\linebreak $E:\ U \otimes R \rightarrow R$ (the transition kernel) and a stationary state $\rho$ on $R$ satisfying $\rho(\mathbb{E}(\mathbbm{1}_U \otimes B))\ =\ \rho(B)$ for all $B \in R$.\\ Using the shorthand $\mathbb{E}_A(B)\ =\ \mathbb{E}(A \otimes B)$, the QSP is defined by $\omega_N(A_1 \otimes ... \otimes A_N)\ =\ \rho(\mathbb{E}_{A_1}\ \circ\ ...\ \circ\ \mathbb{E}_{A_N}(\mathbbm{1}_R))$. The first compatibility condition is automatically satisfied; the second (stationarity) follows from the invariance of $\rho$. \\
+
+The $C^*$-algebraic framework is essential for the general theory. A $C^*$-algebra $U$ is a Banach $^*$-algebra satisfying the $C^*$-identity $||A^*A||\ =\ ||A||^2$. By the Gelfand-Naimark theorem, every finite-dimensional $C^*$-algebra is $^*$-isomorphic to a direct sum of full matrix algebras: $U \sim B(\mathcal{H}_1)\ \oplus\ ...\ \oplus\ B(\mathcal{H}_N)$. Commutative $C^*$-algebras correspond to classical probability spaces: $U$ is commutative $\Leftrightarrow U \sim C(\Omega)$ for a finite set $\Omega$. The tensor product of $C^*$-algebras satisfies $U_1 \otimes U_2\ =\ B(\mathcal{H}_1 \otimes \mathcal{H}_2)$ when $U_i\ =\ B(\mathcal{H}_i)$, and for general direct sums: $\left( \oplus\ B(H_i))\ \otimes\ (\oplus\ B(K_j) \right)\ =\ \oplus\ B(H_i\ \otimes\ K_j)$. \\
+
+A completely positive map $\phi:\ U_1 \rightarrow U_2$ between $C^*$-algebras admits a generalized Kraus decomposition: $\phi(A)\ =\ \sum_k \nu_k A \nu_k^*$ for linear maps $\nu_k: \mathcal{H} \rightarrow \mathcal{K}$. The Perron-Frobenius theory extends to this setting. For an irreducible quantum channel (CP unital map), the peripheral spectrum ${\lambda \in Spec(\phi) :\ |\lambda|\ =\ 1}$ consists entirely of simple eigenvalues forming a cyclic group ${e^{\frac{2 \pi ij}{p}} :\ 0 \leq j \leq p-1}$, and there exists a unique strictly positive fixed point $X$ of $\phi^*$ with $tr(X)\ =\ 1$. For a primitive (aperiodic) channel, $\phi^n(A)\ \rightarrow\ tr(A) X$ exponentially fast. These results provide the quantum analog of the classical Markov chain ergodic theorem. \\
+
+An important special case arises when $U\ =\ C(\Omega)$ is commutative and $R = B(\mathcal{H})$ is non-commutative. In this case, the QMC reduces to a classical stochastic process $(\Omega^N,\ P_N)$ of quantum origin, described by the quantum instrument $E_\omega$, $\omega \in \Omega$. This framework is intimately connected to the theory of repeated quantum measurements: the statistics of successive measurements on a quantum system are governed precisely by such a classically-indexed QMC. This link between quantum measurement theory and quantum Markov chains underscores the unifying power of the $C^*$-algebraic framework developed in these lectures.
+\pagebreak
+\clearpage
+\null
+\clearpage
+\section{Proof and Exercises}
+\label{sec:proof and exercises}
+
+
+    \begin{theorem}
+    \label{a_theorem}
+    (Spectral theorem for normal operators) Let $A \in B(\mathcal{H})$ be normal and $$sp(A)\ =\ \{\lambda_1,\ ...,\ \lambda_p\}.$$ Then $$\mathcal{H}\ =\ \bigoplus_{j\ =\ 1}^p E_{\lambda_j},\ \ P_{\lambda_j}^*\ =\ P_{\lambda_j},\ \ P_{\lambda_j}P_{\lambda_k}\ =\ \delta_{jk}P_{\lambda_j},$$ $$A\ =\ \sum_{j\ =\ 1}^p \lambda_jP_{\lambda_j},\ \ \ A^*\ =\ \sum_{j\ =\ 1}^p \overline{\lambda_j} P_{\lambda_j}.$$ In particular, all eigenvalues are semisimple, $D_{\lambda_j}\ =\ 0$, and there exists an othonormal basis of eigenvalues of $A$.
+    \end{theorem}
+    \vspace{0.3cm} % Insert vertical space
+    
+    
+    \begin{theorem}
+    \label{a_theorem}
+    (Spectral theorem for unitary operators) Let $U \in B(\mathcal{H})$ be unitary and $$sp(U)\ =\ \{\lambda_1,\ ...,\ \lambda_p\}.$$ Then $$|\lambda_j|\ =\ 1\ \ \ \forall j,$$ $$\mathcal{H}\ =\ \bigoplus_{j\ =\ 1}^p E_{\lambda_j},\ \ P_{\lambda_j}^*\ =\ P_{\lambda_j},\ \ P_{\lambda_j}P_{\lambda_k}\ =\ \delta_{jk}P_{\lambda_j},$$ $$U\ =\ \sum_{j\ =\ 1}^p \lambda_jP_{\lambda_j},\ \ \ U^*\ =\ \sum_{j\ =\ 1}^p \overline{\lambda_j} P_{\lambda_j}\ =\ \sum_{j\ =\ 1}^p \lambda_j^{-1}P_{\lambda_j}.$$ In particular, U is diagonalizable in an othonormal basis and all eigenvalues lie on the unit circle.
+    \end{theorem}
+    \vspace{0.3cm} % Insert vertical space
+
+
+    \begin{proposition}
+    (Failure of the triangular inequality in dimension 2) This is the required counterexample. \\
+    Consider $\mathcal{H}\ =\ \mathbb{C}^2$ and
+    $$A\ = \ \begin{bmatrix} 1 & 1 \\ 1 & 1 \end{bmatrix},\ \ \  B\ = \ \begin{bmatrix} 1 & -1 \\ 1 & -1 \end{bmatrix}.$$ Then $$|A|\ = \ \begin{bmatrix} 1 & 1 \\ 1 & 1 \end{bmatrix},\ \ \ |B|\ = \ \begin{bmatrix} 1 & -1 \\ -1 & 1 \end{bmatrix},$$ hence $$|A|\ +\ |B|\ =\ 2\mathbbm{1}.$$
+    On the other hand, $$A\ +\ B\ =\ \begin{bmatrix} 2 & 0 \\ 2 & 0 \end{bmatrix},\ \ \ |A\ +\ B|\ =\ \sqrt{(A\ +\ B)^*(A\ +\ B)}\ = \ \begin{bmatrix} 2\sqrt{2} & 0 \\ 0 & 0 \end{bmatrix}.$$ Therefore $$(|A|\ +\ |B|)\ -\ |A\ +\ B|\ =\ \begin{bmatrix} 2-2\sqrt{2} & 0 \\ 0 & 2 \end{bmatrix},$$ which is not positive semidefinite since $2-2\sqrt{2}<0.$ Thus $$|A\ +\ B|\ \not\leq\ |A|\ +\ |B|.$$ This provides a counterexample in dimension 2.
+    \end{proposition}
+    \vspace{0.3cm} % Insert vertical space
+
+    \pagebreak
+    \begin{theorem}
+    \label{a_theorem}
+    (Polar decomposition) Let $\mathcal{H}$ be a finite dimensional complex Hilbert space and let $A \in B(\mathcal{H})$. Then there exists a unitary operator $U \in B(\mathcal{H})$ such that $$A\ =\ U|A|,\ \ \ |A|\ :=\ (A^*A)^{1/2}.$$ Moreover, $$U \text{ is unique } \Leftrightarrow\ kerA\ =\ \{0\}$$
+    \end{theorem}
+    \begin{proof}
+    Let $A \in B(\mathcal{H})$ and define $|A|\ =\ (A^*A)^{1/2}$. Since $A^*A$ is positive self-adjoint, $|A|$ is well-defined, positive, and self-adjoint. Moreover, $$ker|A|\ =\ kerA,$$ because $$||\ |A|\psi\ ||\ =\ \langle \psi,\ |A|^2\psi\rangle\ =\ \langle \psi,\ A^*A \psi\rangle\ =\ ||A\psi||^2.$$ Define $$U_0\ :\ Ran|A|\ \rightarrow\ RanA,\ \ \ U_0(|A|\psi)\ =\ A\psi.$$ This is well-defined since $|A|\psi_1\ =\ |A|\psi_2$ implies $\psi_1\ -\ \psi_2 \in ker|A|\ =\ kerA$, hence $A\psi_1\ =\ A\psi_2$. Also, $$||U_0(|A|\psi)||\ =\ ||A\psi||\ =\ ||\ |A|\psi\ ||,$$ so $U_0$ is an isometry, and it is onto $RanA$. Thus $U_0$ is unitary from $Ran|A|$ onto $RanA$.\\ Since $$\mathcal{H}\ =\ Ran|A|\ \oplus\ kerA,\ \ \ \mathcal{H}\ =\ RanA\ \oplus\ kerA^*\  \text{ and }\ dim\ kerA\ =\ dim\ kerA^*,$$ one may choose a unitary $W\ :\ kerA\  \rightarrow\ kerA^*$. Extending $U_0$ by $W$, one obtains a unitary $U \in B(\mathcal{H})$ such that $$A\ =\ U|A|.$$ If $kerA\ =\ \{0\}$, then $|A|$ is invertible and from $A\ =\ U_1|A|\ =\ U_2|A|$ one gets $U_1\ =\ U_2$. If $kerA\ \neq\ \{0\}$, the extension on $kerA$ is arbitrary, hence $U$ is not unique.
+    \end{proof}
+    \vspace{0.3cm} % Insert vertical space
+
+    \begin{proposition}
+    Let $\Phi\ :\ B(\mathcal{H})\ \rightarrow\ B(\mathcal{H})$ be $2$-positive and assume that $\Phi(1)$ is invertible. Then $\Phi$ is Schwarz: $$\Phi(X^*X)\ \geq\ \Phi(X^*)\Phi(X)^{-1}\Phi(X),\ \ \ X \in B(\mathcal{H}).$$
+    \end{proposition}
+    \begin{proof} 
+    For every $X \in B(\mathcal{H})$, $$ \begin{bmatrix} 1 & X \\ X^* & X^*X \end{bmatrix}\ \geq\ 0.$$ Since $\Phi$ is $2$-positive, $$\begin{bmatrix} \Phi(1) & \Phi(X) \\ \Phi(X^*) & \Phi(X^*X) \end{bmatrix}\ \geq\ 0.$$ As $\Phi(1)$ is invertible, the Schur complement of the upper-left block is positive: $$\Phi(X^*X)\ -\ \Phi(X^*)\Phi(1)^{-1}\Phi(X)\ \geq\ 0.$$ Thus $\Phi$ is Schwarz.
+    \end{proof}
+    \vspace{0.3cm} % Insert vertical space
+
+    \begin{proposition}
+    If $\Phi\ :\ B(\mathcal{H})\ \rightarrow\ B(\mathcal{H})$ is positive and irreducible, then $\Phi(1)$ is invertible.
+    \end{proposition}
+    \begin{proof} 
+    Suppose $\Phi(1)$ is not invertible, and let $P\ \neq\ 0$ be the orthogonal projection onto $ker\ \Phi(1)$. Then $$P\Phi(1)P\ =\ 0.$$ Since $0\ \leq\ \Phi(P)\ \leq\ \Phi(1)$, hence $$0\ \leq\ P\Phi(P)P\ \leq\ P\Phi(1)P\ =\ 0.$$ Thus the hereditary $^*$-subalgebra $$\mathcal{S}\ =\ (1\ -\ P)B(\mathcal{H})(1\ -\ P)$$ is nonzero, proper, and invariant under $\Phi$. This contradicts irreducibility. Hence $\Phi(1)$ is invertible.
+    \end{proof}
+    \vspace{0.3cm} % Insert vertical space
+
+    \begin{proposition}
+    (Final remarks on the asymptotics of irreducible CP maps)
+    \end{proposition}
+    \begin{proof}
+    Let $\Phi\ :\ B(\mathcal{H})\rightarrow B(\mathcal{H})$ be an irreducible quantum channel. By the Perron-Frobenius theorem quoted in the paper, the peripheral spectrum of $\Phi$ is $$Spec(\Phi)\ \cap\ \{e^{2\pi ij/p}:\ 0\ \leq\ j\ \leq\ p-1\},$$ all peripheral eigenvalues are simple, and there exists $\overline{X}\geq 0$ such that $$tr(\overline{X})\ =\ 1,\ \ \ \Phi^*(\overline{X})\ =\ \overline{X}.$$ Since $\Phi$ is unital, $\Phi(1)\ =\ 1$. Consider $$\mathcal{M}\ =\ \{ X \in B(\mathcal{H}):\ tr(\overline{X}X)\ =\ 0\}.$$ Then $$B(\mathcal{H})\ =\ \mathbb{C}1\ \oplus\ \mathcal{M},\ \ \ \Phi(\mathcal{M})\subset \mathcal{M}.$$ The eigenspace of $\Phi$ for eigenvalue $1$ is $\mathbb{C}1$, hence $1 \notin Spec(\Phi|_\mathcal{M})$. Therefore every eigenvalue of $\Phi|_\mathcal{M}$ satisfies either $|\lambda|\prec 1$, or $|\lambda| = 1$ with $\lambda \neq 1$. Since the peripheral eigenvalues are simple, the Cesàro averages of $\Phi|_\mathcal{M}$ converge to $0$. Writing $$X\ =\ tr(\overline{X}X)1\ +\ X_0, \ \ \ X_0 \in \mathcal{M},$$ one obtains $$\lim_{n\rightarrow \infty}\frac{1}{n}\sum_{k=0}^{n-1}\Phi^k(X)\ =\ tr(\overline{X}X)1.$$ if $\Phi$ is primitive, then $1$ is the only peripheral eigenvalue, so all eigenvalues of $\Phi|_\mathcal{M}$ satisfy $|\lambda|\prec 1$. Hence $$\Phi^n(X)\rightarrow tr(\overline{X}X)1,$$ and in finite dimension the Jordan normal form yields the exponential estimate $$||\Phi^n(X)\ -\ tr(\overline{X}X)1||\ =\ \mathcal{O}(e^{-rn})$$ uniformly for $||X||\leq 1$. In the Schr\"odinger picture, for every $Y \in B(\mathcal{H}),$ $$tr
+    \left( Y\frac{1}{n}\sum_{k=0}^{n-1}(\Phi^*)^k(X)\right) =\ tr\left(\frac{1}{n}\sum_{k=0}^{n-1}\Phi^k(Y)X\right).$$ Passing to the limit and using the previous ergodic formula gives $$\lim_{n\rightarrow \infty}\frac{1}{n}\sum_{k=0}^{n-1}(\Phi^*)^k(X)\ =\ tr(X)\overline{X}.$$ If $\Phi$ is primitive, the same argument applied to $\Phi^*$ gives exponential convergence $$(\Phi^*)^n(X)\ \rightarrow\ tr(X)\overline{X}.$$
+    \end{proof}
+    \vspace{0.3cm} % Insert vertical space
+    \pagebreak
+    \begin{proposition}
+    Let $A,\ B \in B(\mathcal{H})$.\\
+    1. H\"older's inequality. If $p,\ q \in [1,\ \infty]$ satisfy $$\frac{1}{p}\ +\ \frac{1}{q}\ =\ 1,$$ then $$||AB||_1\ \leq\ ||A||_p||B||_p.$$ 
+    2. Minkowski's inequality. If $p \in [1,\ \infty)$, then $$||A\ +\ B||_p\ \leq\ ||A||_p\ +\ ||B||_p.$$
+    \end{proposition}
+    \vspace{0.3cm} % Insert vertical space
+    \begin{proof}
+    For $A \in B(\mathcal{H})$, define the Schatten norms by $$||A||_p\ =\ (tr|A|^p)^{1/p},\ \ \ 1\ \leq\ p\ <\ \infty.$$ Then:\\
+    1. For $||K||_\infty\ \leq\ 1$, writing $A\ =\ U|A|,\ B\ =\ V|B|$, and setting $$F_\epsilon(z)\ =\ tr(KUA_\epsilon^{pz}VB_\epsilon^{q(1-z)}),\ \ \ A_\epsilon\ =\ |A|\ +\ \epsilon1,\ \ \ B_\epsilon\ =\ |B|\ +\ \epsilon1,$$ one gets, by Hadamard's three-line theorem, $$|F_\epsilon(1/p)|\ \leq\ (tr(A_\epsilon^p))^{1/p}(tr(B_\epsilon^q))^{1/q}.$$ Letting $\epsilon\ \downarrow\ 0$ yields $$|tr(KAB)|\ \leq\ ||A||_p||B||_q.$$ Taking the supremum over $||K||_\infty\ \leq\ 1$ and using $$||T||_1\ =\ \sup_{||K||_\infty\ \leq\ 1} |tr(KT)|$$ gives H\"older's inequality.\\
+    2. A consequence of H\"older is the duality formula $$||T||_p\ =\ \sup_{||S||_q\ \leq\ 1}|tr(ST)|.$$ Indeed, $$||A\ +\ B||_p\ =\ \sup_{||S||_q\ \leq\ 1}|tr(S(A\ +\ B))|\ \leq\ \sup_{||S||_q\ \leq\ 1}(|tr(SA)|\ +\ |tr(SB)|)\ \leq\ ||A||_p\ +\ ||B||_p.$$
+    \end{proof}
+    \vspace{0.3cm} % Insert vertical space
+    \pagebreak
+    \begin{proposition}
+    Let $P \in L(\mathcal{H})$. Suppose $Q \in L(\mathcal{H})$ satisfies $$P\ \wedge\ Q\ =\ 0,\ \ \ P\ \vee\ Q\ =\ 1,$$ and assume the orthocomplementation map $R \mapsto R^{\perp}$ satisfies $$\text{ the order-reversing property } R\ \leq\ S\ \Rightarrow\ S^{\perp}\ \leq\ R^{\perp}, \text{ together with involutivity } (R^{\perp})^{\perp}\ =\ R.$$ Then $$Q\ =\ P^{\perp}.$$
+    \end{proposition}
+    \vspace{0.3cm} % Insert vertical space
+    \begin{proof}
+    Let $Q \in L(\mathcal{H})$ satisfy $$P\ \wedge\ Q\ =\ 0,\ \ \ P\ \vee\ Q\ =\ 1.$$ We claim that $Q\ =\ P^{\perp}$. Since $P\ \wedge\ Q\ =\ 0$, one has $$RanP\ \cap\ RanQ\ =\ \{0\},$$ and since $P\ \vee\ Q\ =\ 1,$ $$H\ =\ RanP\ +\ RanQ.$$ Hence $$H\ =\ RanP\ \oplus\ RanQ.$$ On the other hand, by definition of orthocomplement, $$H\ =\ RanP\ \oplus\ (RanP)^{\perp}\ =\ RanP\ \oplus\ Ran(P^{\perp}).$$ Therefore $RanQ$ and $Ran(P^{\perp})$ are both complements of $RanP$. Since $Q$ and $P^{\perp}$ are orthogonal projections, their ranges must coincide: $$RanQ\ =\ Ran(P^{\perp}).$$ Since an orthogonal projection is uniquely determined by its range, it follows that $$Q\ =\ P^{\perp}.$$
+    \end{proof}
+
+    \begin{proposition}
+    If $\{f_j\}_{j=1}^N$ is an orthonormal basis of $\mathcal{H}_1$ and $\{g_k\}_{k=1}^M$ is an orthonormal basis of $\mathcal{H}_2$, then for $$A_2\ =\ tr_{\mathcal{H}_1}(A) \in B(\mathcal{H}_2)$$ one has $$\langle g_l\ |\ A_2g_m\rangle\ =\ \sum_{j\ =\ 1}^N \langle f_j\  \otimes\ g_l\ |\ A(f_j\  \otimes\ g_m)\rangle.$$ 
+    \end{proposition}
+    \vspace{0.3cm} % Insert vertical space
+    \begin{proof}
+    By the defining property of the partial trace, $$tr_\mathcal{H}(A(1\ \otimes\ \psi))\ =\ tr_{\mathcal{H}_2}(A_2\psi)\ \ \ \forall \psi \in B(\mathcal{H}_2).$$ Choosing $\psi\ =\ |g_m\rangle\langle g_l|$, one gets $$\langle g_l\ |\ A_2g_m\rangle\ =\ tr_\mathcal{H}(A(1\ \otimes\ |g_m\rangle\langle g_l|)).$$ Expanding the trace in the basis $\{f_j\ \otimes\ g_k\}$, $$tr_\mathcal{H}(A(1\ \otimes\ |g_m\rangle\langle g_l|))\ =\ \sum_{j,\ k}\langle f_j\ \otimes\ g_k\ |\ A(1\ \otimes\ |g_m\rangle\langle g_l|)(f_j\ \otimes\ g_k)\rangle.$$ Since $$(1\ \otimes\ |g_m\rangle\langle g_l|)(f_j\ \otimes\ g_k)\ =\ \delta_{lk}f_j\ \otimes\ g_m,$$ the sum reduces to $$\sum_{j\ =\ 1}^N\langle f_j\ \otimes\ g_l\ |\ A(f_j\ \otimes\ g_m)\rangle,$$ proving the formula.
+    \end{proof}
+
+\begin{comment}
+
+    Theorems have to be formatted as follows:
+\begin{theorem}
+\label{a_theorem}
+Write here your theorem. 
+\end{theorem}
+\textit{Proof.} If useful you can report here the proof.
+\vspace{0.3cm} % Insert vertical space
+
+    Propositions have to be formatted as follows:
+\begin{proposition}
+Write here your proposition.
+\end{proposition}
+\vspace{0.3cm} % Insert vertical space
+
+\begin{bmatrix}
+    a & b \\
+    c & d
+\end{bmatrix}
+
+\end{comment}
+\clearpage
+\null
+\clearpage
+
+\section{Concluding Remarks}
+\label{sec:concluding remarks}
+These lectures provide a rigorous and self-contained introduction to the linear algebra underlying quantum mechanics, proceeding from basic Hilbert space theory through spectral theory and operator analysis, to the probabilistic and stochastic structures of quantum information theory. The finite-dimensional restriction allows for technically accessible proofs while preserving the essential structural phenomena: the non-commutativity of operators, the failure of distributivity in the lattice of quantum events, the possibility of entanglement, and the quantum generalization of Markov chains. \\
+
+Three themes are woven throughout the material. First, the interplay between algebraic structure ($C^*$-algebras, tensor products, completely positive maps) and analytic content (trace inequalities, operator monotone functions, spectral theory) is constantly exploited. Second, the relationship between classical and quantum probability is made precise: quantum probability reduces to classical probability for commuting observables, and the $C^*$-algebraic framework provides the natural language for distinguishing classical (commutative) from quantum (non-commutative) structures. Third, the connection to physical theory — quantum measurement, quantum channels, quantum entropy, quantum statistical mechanics — motivates and guides the mathematical development throughout. \\
+
+The material covered here provides the essential prerequisites for more advanced topics: quantum hypothesis testing, quantum Fisher information and parameter estimation, quantum entropy inequalities, the theory of quantum spin systems, and quantum field theory. The Perron-Frobenius theory for quantum channels and quantum Markov chains in particular connects directly to current research in open quantum systems, quantum thermodynamics, and quantum error correction — areas of active mathematical and physical investigation.
+
+
+
+
+
+\begin{comment}
+\section{Equations}
+\label{sec:eqs}
+This section gives some examples of writing mathematical equations in your thesis.
+
+Maxwell's equations read:
+\begin{subequations}
+    \label{eq:maxwell}
+    \begin{align}[left=\empheqlbrace]
+    \nabla\cdot \bm{D} & = \rho, \label{eq:maxwell1} \\
+    \nabla \times \bm{E} +  \frac{\partial \bm{B}}{\partial t} & = \bm{0}, \label{eq:maxwell2} \\
+    \nabla\cdot \bm{B} & = 0, \label{eq:maxwell3} \\
+    \nabla \times \bm{H} - \frac{\partial \bm{D}}{\partial t} &= \bm{J}. \label{eq:maxwell4}
+    \end{align}
+\end{subequations}
+
+Equation~\eqref{eq:maxwell} is automatically labeled by \texttt{cleveref},
+as well as Equation~\eqref{eq:maxwell1} and Equation~\eqref{eq:maxwell3}.
+Thanks to the \verb|cleveref| package, there is no need to use \verb|\eqref|.
+Equations have to be numbered only if they are referenced in the text.
+
+Equations~\eqref{eq:maxwell_multilabels1}, \eqref{eq:maxwell_multilabels2}, \eqref{eq:maxwell_multilabels3}, and \eqref{eq:maxwell_multilabels4} show again Maxwell's equations without brace:
+\begin{align}
+    \nabla\cdot \bm{D} & = \rho, \label{eq:maxwell_multilabels1} \\
+    \nabla \times \bm{E} +  \frac{\partial \bm{B}}{\partial t} &= \bm{0}, \label{eq:maxwell_multilabels2} \\
+    \nabla\cdot \bm{B} & = 0, \label{eq:maxwell_multilabels3} \\
+    \nabla \times \bm{H} - \frac{\partial \bm{D}}{\partial t} &= \bm{J} \label{eq:maxwell_multilabels4}.
+\end{align}
+
+Equation~\eqref{eq:maxwell_singlelabel} is the same as before,
+but with just one label:
+\begin{equation}
+    \label{eq:maxwell_singlelabel}
+    \left\{
+    \begin{aligned}
+    \nabla\cdot \bm{D} & = \rho, \\
+    \nabla \times \bm{E} +  \frac{\partial \bm{B}}{\partial t} &= \bm{0},\\
+    \nabla\cdot \bm{B} & = 0, \\
+    \nabla \times \bm{H} - \frac{\partial \bm{D}}{\partial t} &= \bm{J}.
+    \end{aligned}
+    \right.
+\end{equation}
+
+%-----------------------------------------------------------------------------
+% FIGURES, TABLES AND ALGORITHMS
+%-----------------------------------------------------------------------------
+\section{Figures, Tables and Algorithms}
+
+Figures, Tables and Algorithms have to contain a Caption that describes their content, and have to be properly referred in the text.
+
+\subsection{Figures}
+\label{subsec:figures}
+
+For including pictures in your text you can use \texttt{TikZ} for high-quality hand-made figures \cite{tikz},
+or just include them with the command
+\begin{verbatim}
+\includegraphics[options]{filename.xxx}
+\end{verbatim}
+Here xxx is the correct format, e.g.  \verb|.png|, \verb|.jpg|, \verb|.eps|, \dots.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\textwidth]{logo_polimi_scritta.eps}
+    \caption{Caption of the Figure.}
+    \label{fig:quadtree}
+\end{figure}
+
+Thanks to the \texttt{\textbackslash subfloat} command, a single figure, such as Figure~\ref{fig:quadtree},
+can contain multiple sub-figures with their own caption and label, e.g. Figure~\ref{fig:polimi_logo1} and Figure~\ref{fig:polimi_logo2}. 
+
+\begin{figure}[H]
+    \centering
+    \subfloat[One PoliMi logo.\label{fig:polimi_logo1}]{
+        \includegraphics[scale=0.5]{Images/logo_polimi_scritta.eps}
+    }
+    \quad
+    \subfloat[Another one PoliMi logo.\label{fig:polimi_logo2}]{
+        \includegraphics[scale=0.5]{Images/logo_polimi_scritta2.eps}
+    }
+    \caption[]{Caption of the Figure.}
+    \label{fig:quadtree2}
+\end{figure}
+
+\subsection{Tables}
+\label{subsec:tables}
+
+Within the environments \texttt{table} and  \texttt{tabular} you can create very fancy tables as the one shown in Table~\ref{table:example}.
+
+\begin{table}[H]
+    \caption*{\textbf{Example of Table (optional)}}
+    \centering 
+    \begin{tabular}{|p{3em} c c c |}
+    \hline
+    \rowcolor{bluePoli!40}
+     & \textbf{column1} & \textbf{column2} & \textbf{column3} \T\B \\
+    \hline \hline
+    \textbf{row1} & 1 & 2 & 3 \T\B \\
+    \textbf{row2} & $\alpha$ & $\beta$ & $\gamma$ \T\B\\
+    \textbf{row3} & alpha & beta & gamma \B\\
+    \hline
+    \end{tabular}
+    \\[10pt]
+    \caption{Caption of the Table.}
+    \label{table:example}
+\end{table}
+
+You can also consider to highlight selected columns or rows in order to make tables more readable.
+Moreover, with the use of \texttt{table*} and the option \texttt{bp} it is possible to align them at the bottom of the page. One example is presented in Table~\ref{table:exampleC}. 
+
+\begin{table*}[bp]
+\centering 
+    \begin{tabular}{|p{3em} | c | c | c | c | c | c|}
+    \hline
+%    \rowcolor{bluePoli!40}
+     & \textbf{column1} & \textbf{column2} & \textbf{column3} & \textbf{column4} & \textbf{column5} & \textbf{column6} \T\B \\
+    \hline \hline
+    \textbf{row1} & 1 & 2 & 3 & 4 & 5 & 6 \T\B\\
+    \textbf{row2} & a & b & c & d & e & f \T\B\\
+    \textbf{row3} & $\alpha$ & $\beta$ & $\gamma$ & $\delta$ & $\phi$ & $\omega$ \T\B\\
+    \textbf{row4} & alpha & beta & gamma & delta & phi & omega \B\\
+    \hline
+    \end{tabular}
+    \\[10pt]
+    \caption{Highlighting the columns}
+    \label{table:exampleC}
+\end{table*}
+
+\subsection{Algorithms}
+\label{subsec:algorithms}
+
+Pseudo-algorithms can be written in \LaTeX{} with the \texttt{algorithm} and \texttt{algorithmic} packages.
+An example is shown in Algorithm~\ref{alg:var}.
+\begin{algorithm}[H]
+\label{alg:example}
+\caption{Name of the Algorithm}
+\label{alg:var}
+\label{protocol1}
+\begin{algorithmic}[1]
+\STATE Initial instructions
+\FOR{$for-condition$}
+\STATE{Some instructions}
+\IF{$if-condition$}
+\STATE{Some other instructions}
+\ENDIF
+\ENDFOR
+\WHILE{$while-condition$}
+\STATE{Some further instructions}
+\ENDWHILE
+\STATE Final instructions
+\end{algorithmic}
+\end{algorithm} 
+
+\section{Some further useful suggestions}
+
+Theorems have to be formatted as follows:
+\begin{theorem}
+\label{a_theorem}
+Write here your theorem. 
+\end{theorem}
+\textit{Proof.} If useful you can report here the proof.
+\vspace{0.3cm} % Insert vertical space
+
+Propositions have to be formatted as follows:
+\begin{proposition}
+Write here your proposition.
+\end{proposition}
+\vspace{0.3cm} % Insert vertical space
+
+How to insert itemized lists:
+\begin{itemize}
+    \item first item;
+    \item second item.
+\end{itemize}
+How to write numbered lists:
+\begin{enumerate}
+    \item first item;
+    \item second item.
+\end{enumerate}
+
+\section{Use of copyrighted material}
+
+Each student is responsible for obtaining copyright permissions, if necessary, to include published material in the thesis.
+This applies typically to third-party material published by someone else.
+
+\section{Plagiarism}
+
+You have to be sure to respect the rules on Copyright and avoid an involuntary plagiarism.
+It is allowed to take other persons' ideas only if the author and his original work are clearly mentioned.
+As stated in the Code of Ethics and Conduct, Politecnico di Milano \textit{promotes the integrity of research,
+condemns manipulation and the infringement of intellectual property}, and gives opportunity to all those
+who carry out research activities to have an adequate training on ethical conduct and integrity while doing research.
+To be sure to respect the copyright rules, read the guides on Copyright legislation and citation styles available
+at:
+\begin{verbatim}
+https://www.biblio.polimi.it/en/tools/courses-and-tutorials
+\end{verbatim}
+You can also attend the courses which are periodically organized on "Bibliographic citations and bibliography management".
+\end{comment}
+
+%-----------------------------------------------------------------------------
+% CONCLUSION
+%-----------------------------------------------------------------------------
+\begin{comment}
+\color{black}
+A final section containing the main conclusions of your research/study
+and possible future developments of your work have to be inserted in the section ``Conclusions''.
+\section{Conclusions}
+\end{comment}
+\pagebreak
+\clearpage
+\null
+\clearpage
+\nocite{*}
+\section{Bibliography and citations}
+The present report is based entirely on the lecture notes "Linear Algebra of Quantum Mechanics" by Vojkan Jaksic (July 2022), which constitute the primary source for all results, definitions, and proofs discussed herein. Within those notes, Jaksic refers to several external works for proofs and deeper treatments of specific topics. The theory of the trace and its inequalities, including the Peierls-Bogolyubov, Klein, Golden-Thompson, and Araki-Lieb-Thirring inequalities, is treated in depth in the lecture notes Quantum Statistical Mechanics and Quantum Entropic Fluctuations, both referenced by Jaksic. The structural theory of completely positive maps, including the Kraus and Stinespring theorems, is developed in the lecture notes of M. Wolf, Quantum Channels and Operations, and in the course notes on Quantum Information Theory typed by Renaud Raquépas. The Perron-Frobenius theory for positive maps on C*-algebras is discussed in the papers by Fagnola–Pellicer and Evans–Høegh-Krohn (1997). The classification of finite-dimensional C*-algebras is attributed to Putnam's lecture notes. Gleason's theorem (1957) and the theory of quantum Markov chains as finitely correlated states are cited as foundational results, with further reading suggested in the book by Dénes Petz, Quantum Information Theory and Quantum Statistics.
+%-----------------------------------------------------------------------------
+% BIBLIOGRAPHY
+%-----------------------------------------------------------------------------
+\bibliography{bibliography.bib}
+\begin{comment}
+\appendix
+\section{Appendix A}
+If you need to include an appendix to support the research in your thesis, you can place it at the end of the manuscript.
+An appendix contains supplementary material (figures, tables, data, codes, mathematical proofs, surveys, \dots)
+which supplement the main results contained in the previous sections.
+
+\section{Appendix B}
+It may be necessary to include another appendix to better organize the presentation of supplementary material.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%     ABSTRACT IN ITALIAN LANGUAGE AND ACKNOWLEDGMENTS     %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\cleardoublepage
+
+%-----------------------------------------------------------------------------
+% SOMMARIO
+%-----------------------------------------------------------------------------
+\section*{Abstract in lingua italiana}
+Qui va l'Abstract in lingua italiana della tesi seguito dalla lista di parole chiave.
+\vspace{15pt}
+\begin{tcolorbox}[arc=0pt, boxrule=0pt, colback=bluePoli!60, width=\textwidth, colupper=white]
+    \textbf{Parole chiave:} qui, le parole chiave, della tesi, in italiano 
+\end{tcolorbox}
+
+%-----------------------------------------------------------------------------
+% ACKNOWLEDGEMENTS
+%-----------------------------------------------------------------------------
+\section*{Acknowledgements}
+Here you might want to acknowledge someone.
+    
+\end{comment}
+%-------------------------------------------------------------------------
+%	END OF YOUR DOCUMENT
+%-------------------------------------------------------------------------
+\end{document}
