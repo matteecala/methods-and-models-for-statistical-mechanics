@@ -1,0 +1,817 @@
+\documentclass{beamer}
+\usetheme{Berlin}
+\usecolortheme{seahorse}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{mathtools}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{tcolorbox}
+\usepackage{ragged2e}
+\usepackage{bbm}
+\tcbuselibrary{skins, breakable}
+
+% ─── Custom colours ───────────────────────────────────────────────────────────
+\definecolor{navyblue}{RGB}{13,33,69}
+\definecolor{tealblue}{RGB}{10,126,140}
+\definecolor{mintblue}{RGB}{5,184,196}
+\definecolor{lightblue}{RGB}{212,234,245}
+\definecolor{mutedblue}{RGB}{143,168,200}
+
+\setbeamercolor{palette primary}{bg=navyblue, fg=white}
+\setbeamercolor{palette secondary}{bg=tealblue, fg=white}
+\setbeamercolor{palette tertiary}{bg=navyblue, fg=white}
+\setbeamercolor{palette quaternary}{bg=navyblue, fg=white}
+\setbeamercolor{structure}{fg=navyblue}
+\setbeamercolor{section in toc}{fg=navyblue}
+\setbeamercolor{frametitle}{bg=navyblue, fg=white}
+\setbeamercolor{block title}{bg=tealblue, fg=white}
+\setbeamercolor{block body}{bg=lightblue, fg=black}
+\setbeamercolor{block title alerted}{bg=navyblue, fg=mintblue}
+\setbeamercolor{block body alerted}{bg=lightblue!60, fg=black}
+\setbeamercolor{block title example}{bg=tealblue!80, fg=white}
+\setbeamercolor{block body example}{bg=lightblue!40, fg=black}
+
+% ─── tcolorbox styles ─────────────────────────────────────────────────────────
+\tcbset{
+  mathbox/.style={
+    enhanced, colback=lightblue, colframe=tealblue,
+    fonttitle=\bfseries\small, coltitle=white, attach boxed title to top left,
+    boxrule=1pt, arc=3pt, left=4pt, right=4pt, top=4pt, bottom=4pt
+  },
+  defbox/.style={
+    enhanced, colback=lightblue!50, colframe=navyblue,
+    fonttitle=\bfseries\small, coltitle=white,
+    boxrule=0.8pt, arc=2pt, left=4pt, right=4pt, top=3pt, bottom=3pt,
+    attach boxed title to top left={yshift=-2mm, xshift=3mm},
+    boxed title style={colback=navyblue, arc=2pt}
+  },
+  thmbox/.style={
+    enhanced, colback=blue!5, colframe=tealblue,
+    fonttitle=\bfseries\small, title={#1},
+    coltitle=white, attach boxed title to top left,
+    boxrule=0.8pt, arc=3pt, left=4pt, right=4pt, top=4pt, bottom=4pt,
+    boxed title style={colback=tealblue, arc=2pt}
+  }
+}
+
+% ─── Macros ───────────────────────────────────────────────────────────────────
+\newcommand{\Hilb}{\mathcal{H}}
+\newcommand{\Bound}{\mathcal{B}}
+\newcommand{\tr}{\mathrm{tr}}
+\newcommand{\ket}[1]{|#1\rangle}
+\newcommand{\bra}[1]{\langle#1|}
+\newcommand{\braket}[2]{\langle#1|#2\rangle}
+\newcommand{\ip}[2]{\langle #1, #2 \rangle}
+\newcommand{\norm}[1]{\|#1\|}
+\newcommand{\Spec}{\mathrm{sp}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\CP}{\mathrm{CP}}
+\newcommand{\ONB}{\mathrm{ONB}}
+
+% ─── Title metadata ───────────────────────────────────────────────────────────
+\title{Linear Algebra of Quantum Mechanics}
+\subtitle{Methods and Models for Statistical Mechanics}
+\author{Matteo Calabr\`o \\ \small{10806209}}
+\institute{Politecnico di Milano \\ \smallskip \small{Advisor: Prof.\ Silvia Lorenzani}}
+\date{Academic Year 2025--2026}
+
+% ─── Navigation symbols off ───────────────────────────────────────────────────
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}{}
+
+% ══════════════════════════════════════════════════════════════════════════════
+\begin{document}
+% ══════════════════════════════════════════════════════════════════════════════
+
+\frame{\titlepage}
+
+% ─── Table of contents ────────────────────────────────────────────────────────
+\begin{frame}{Table of Contents}
+  \tableofcontents
+\end{frame}
+
+% ══════════════════════════════════════════════════════════════════════════════
+\section{Hilbert Spaces \& Linear Maps}
+% ══════════════════════════════════════════════════════════════════════════════
+
+\begin{frame}[shrink=10]{Hilbert Space --- Definition}
+  \small
+  \begin{tcolorbox}[defbox, title={Definition}, left=3pt, right=3pt, top=2pt, bottom=2pt]
+    A \textbf{Hilbert space} $\Hilb$ is a complex vector space with an inner product
+    $\ip{\cdot}{\cdot}$ satisfying:
+    \begin{itemize}\setlength\itemsep{1pt}
+      \item \textbf{Linearity}: $\ip{\varphi}{\alpha\psi_1+\beta\psi_2}=\alpha\ip{\varphi}{\psi_1}+\beta\ip{\varphi}{\psi_2}$
+      \item \textbf{Anti-linearity}: $\ip{\alpha\varphi}{\psi}=\bar\alpha\ip{\varphi}{\psi}$
+      \item \textbf{Conjugate symmetry}: $\ip{\varphi}{\psi}=\overline{\ip{\psi}{\varphi}}$
+      \item \textbf{Positive definiteness}: $\ip{\varphi}{\varphi}\ge 0$, with $=0 \Leftrightarrow \varphi=0$
+      \item \textbf{Completeness} w.r.t.\ the induced norm $\norm{\varphi}=\sqrt{\ip{\varphi}{\varphi}}$
+    \end{itemize}
+  \end{tcolorbox}
+  \begin{block}{Key Fact (finite dimensions)}
+  \justifying
+    In the finite-dimensional setting completeness is \emph{automatic}: every
+    finite-dimensional inner product space over $\mathbb{C}$ is a Hilbert space.
+    Dimension $N$ guarantees $\mathbb{C}^N \cong \Hilb$ via any ONB.
+  \end{block}
+\end{frame}
+
+\begin{frame}[shrink=10]{Orthonormal Basis \& Parseval Identity}
+  \small
+  Given $\dim\Hilb = N$, an \textbf{orthonormal basis} (ONB) $\{e_n\}_{n=1}^N$ satisfies
+  $\norm{e_n}=1$ and $\ip{e_n}{e_m}=0$ for $n\ne m$.
+
+  \vspace{0.2em}
+  \begin{tcolorbox}[mathbox, left=3pt, right=3pt, top=2pt, bottom=2pt]
+    \textbf{Fourier decomposition:}\quad
+    $\varphi = \displaystyle\sum_{n=1}^N \alpha_n e_n, \qquad \alpha_n = \ip{e_n}{\varphi}$
+  \end{tcolorbox}
+
+  \vspace{0.2em}
+  \begin{tcolorbox}[mathbox, left=3pt, right=3pt, top=2pt, bottom=2pt]
+    \textbf{Parseval identity:}\quad
+    $\ip{\varphi}{\psi} = \displaystyle\sum_{n=1}^N \ip{e_n}{\varphi}\,\ip{e_n}{\psi}$
+  \end{tcolorbox}
+
+  \vspace{0.2em}
+  \begin{alertblock}{Operator norm on $\Bound(\Hilb,\mathcal{K})$}
+  \justifying
+    $\norm{A} = \sup_{\norm{\varphi}=1}\norm{A\varphi}_{\mathcal K}$. Any $A$ is
+    uniquely determined by its matrix elements $a_{nm}=\ip{f_m}{Ae_n}$.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}[shrink=10]{Adjoints \& the $C^*$-Identity}
+  \small
+  \begin{tcolorbox}[defbox, title={Adjoint}, left=3pt, right=3pt, top=2pt, bottom=2pt]
+    For $A\in\Bound(\Hilb,\mathcal{K})$, the adjoint $A^*\in\Bound(\mathcal{K},\Hilb)$ is
+    defined by
+    \[
+      \ip{\varphi}{A\psi}_{\mathcal K} = \ip{A^*\varphi}{\psi}_\Hilb
+      \quad \forall\,\varphi\in\mathcal{K},\;\psi\in\Hilb.
+    \]
+  \end{tcolorbox}
+
+  \vspace{0.2em}
+  \textbf{Fundamental properties:}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{itemize}\setlength\itemsep{1pt}
+        \item Involution: $A^{**}=A$
+        \item Anti-linearity: $(\alpha A)^*=\bar\alpha A^*$
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{itemize}\setlength\itemsep{1pt}
+        \item Norm preservation: $\norm{A}=\norm{A^*}$
+        \item $C^*$\textbf{-identity}: $\norm{AA^*}=\norm{A}^2$
+      \end{itemize}
+    \end{column}
+  \end{columns}
+
+  \vspace{0.2em}
+  \begin{block}{Significance}
+  \justifying
+    The $C^*$-identity $\norm{AA^*}=\norm{A}^2$ is the algebraic cornerstone
+    distinguishing $C^*$-algebras from general Banach algebras; it encodes
+    norm and algebraic structure simultaneously.
+  \end{block}
+\end{frame}
+
+\begin{frame}[shrink=10]{Distinguished Classes of Operators}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{tcolorbox}[thmbox={Self-adjoint (A = A*)}]
+        Real eigenvalues; model \emph{observables}. Equivalent to\\
+        $\ip{\varphi}{A\psi}=\ip{A\varphi}{\psi}$.
+      \end{tcolorbox}
+      \vspace{0.3em}
+      \begin{tcolorbox}[thmbox={Normal (AA* = A*A)}]
+        $A = \frac{A+A^*}{2} + \frac{1}{2i}(A-A^*)$: sum of two
+        self-adjoint operators.
+      \end{tcolorbox}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{tcolorbox}[thmbox={Unitary (UU* = I)}]
+        Preserve inner products; model \emph{symmetries}. In finite dims:
+        $UU^*=I \Leftrightarrow U^*U=I$.
+      \end{tcolorbox}
+      \vspace{0.3em}
+      \begin{tcolorbox}[thmbox={Projection (P squared = P)}]
+        Orthogonal if also $P=P^*$. Rank-one: $P=\ket\varphi\bra\psi$ with
+        $\braket\varphi\psi=1$;\\
+        orthogonal $\Leftrightarrow \varphi=\psi$.
+      \end{tcolorbox}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[shrink=10]{Spectral Theory --- Key Concepts}
+  \small
+  \textit{Spectral theory underpins the measurement postulate: eigenvalues are outcomes; eigenprojections are events.}
+
+  \vspace{0.2em}
+  $\lambda\in\Spec(A) \Leftrightarrow (A-\lambda\mathbbm{1})$ not invertible $\Leftrightarrow \lambda$ eigenvalue (finite dims).
+
+  \vspace{0.2em}
+  \begin{tcolorbox}[mathbox, left=3pt, right=3pt, top=2pt, bottom=2pt]
+    $m(\lambda)=\dim E_\lambda$ (geometric mult.) \quad
+    $\mu(\lambda)=\dim G_\lambda$ (algebraic mult.) \quad
+    $m(\lambda)\le\mu(\lambda)$; equality for self-adjoint ops.
+  \end{tcolorbox}
+
+  \vspace{0.2em}
+  \begin{tcolorbox}[mathbox, left=3pt, right=3pt, top=2pt, bottom=2pt]
+    \textbf{Resolvent identity:}\quad
+    $(z-A)^{-1}-(w-A)^{-1} = (w-z)(z-A)^{-1}(w-A)^{-1}$
+  \end{tcolorbox}
+
+  \vspace{0.2em}
+  \begin{block}{Abstract Jordan Normal Form}
+  \justifying
+    $A = \sum_j \bigl(\lambda_j P_{\lambda_j} + D_{\lambda_j}\bigr)$,\;
+    coordinate-free: $P_{\lambda_j}^2=P_{\lambda_j}$,\; $P_{\lambda_j}P_{\lambda_k}=0$ ($j\ne k$),\;\\
+    $D_{\lambda_j}$ nilpotent.
+  \end{block}
+\end{frame}
+
+\begin{frame}[shrink=10]{Spectral Theorem --- Self-Adjoint Operators}
+  For $A=A^*\in\Bound(\Hilb)$ with $\Spec(A)=\{\lambda_1,\dots,\lambda_p\}$:
+
+  \begin{columns}[T]
+    \begin{column}{0.45\textwidth}
+      \begin{itemize}
+        \item All $\lambda_j\in\mathbb{R}$
+        \item All eigenvalues \emph{semi-simple} ($D_{\lambda_j}=0$)
+        \item Eigenprojections orthogonal ($P_{\lambda_j}^*=P_{\lambda_j}$)
+        \item Eigenspaces mutually orthogonal
+        \item $\Hilb = \bigoplus_j E_{\lambda_j}$
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.52\textwidth}
+      \begin{tcolorbox}[mathbox]
+        \textbf{Spectral decomposition:}
+        \[ A = \sum_j \lambda_j P_{\lambda_j} \]
+        \textbf{Functional calculus:}
+        \[ f(A) = \sum_j f(\lambda_j) P_{\lambda_j} \]
+      \end{tcolorbox}
+    \end{column}
+  \end{columns}
+
+  \vspace{0.4em}
+  \begin{block}{Properties of functional calculus}
+    $[f(A)]^* = \bar f(A)$,\quad $(fg)(A)=f(A)g(A)$,\quad $(f+g)(A)=f(A)+g(A)$.\\
+    \smallskip
+    Essential for defining $e^A$, $\log A$, $A^p$.
+  \end{block}
+\end{frame}
+
+\begin{frame}[shrink=10]{Completely Positive Maps \& Quantum Channels}
+  A \textbf{superoperator} $\Phi:\Bound(\Hilb)\to\Bound(\Hilb)$ is \emph{positive} if
+  $X\ge 0 \Rightarrow \Phi(X)\ge 0$. Positivity alone is \textbf{insufficient} for
+  quantum-mechanical consistency.
+
+  \vspace{0.3em}
+  \begin{alertblock}{Key example}
+    The transpose map on $\Bound(\mathbb C^2)$ is positive but \emph{not} $2$-positive.
+  \end{alertblock}
+
+  \begin{tcolorbox}[thmbox={Kraus--Stinespring Theorem}]
+    $\Phi$ is \textbf{completely positive (CP)}
+    $\;\Longleftrightarrow\;$
+    \[
+      \Phi(X) = \sum_{j=1}^m V_j X V_j^*, \quad V_j\in\Bound(\Hilb).
+    \]
+    Kraus operators unique up to unitary mixing; minimal $m = \mathrm{rank}\,r(\Phi)$.
+    Equivalent (Stinespring): $\exists\,V:\Hilb\to\Hilb\otimes\mathbb{C}^r$ s.t.\
+    $\Phi(X)=V^*(X\otimes\mathbbm{1})V$.
+  \end{tcolorbox}
+
+  \begin{block}{Quantum channel}
+  \justifying
+    A CP \emph{unital} map $\Phi(\mathbbm{1})=\mathbbm{1}$ (Heisenberg picture).
+    Its adjoint $\Phi^*$ is the channel in the Schr\"odinger picture.
+  \end{block}
+\end{frame}
+
+\begin{frame}[shrink=10]{Perron--Frobenius Theory for CP Maps}
+  The classical Perron--Frobenius theorem for non-negative matrices extends to positive
+  maps on $\Bound(\Hilb)$.
+
+  \vspace{0.3em}
+  \begin{tcolorbox}[thmbox={Irreducible CP map}]
+    No non-trivial orthogonal projection $P$ satisfies $\Phi(P)\le\lambda P$.
+    For such $\Phi$: $\exists\,!$ strictly positive fixed point $X$ of $\Phi^*$ with
+    $\tr(X)=1$, and a spectral gap.
+  \end{tcolorbox}
+
+  \vspace{0.3em}
+  \begin{tcolorbox}[mathbox]
+    \textbf{Primitive channels} (period $p=1$):
+    \[
+      \bigl\|\Phi^{(n)}(X) - \tr(XX)\cdot\mathbbm{1}\bigr\| = \mathcal{O}(e^{-rn})
+    \]
+  \end{tcolorbox}
+
+  \begin{block}{Significance}
+  \justifying
+    This quantum Perron--Frobenius theorem provides the foundation for the ergodic
+    theory of quantum Markov chains, directly generalising the classical case.
+  \end{block}
+\end{frame}
+
+\begin{frame}[shrink=10]{Operator Monotone \& Operator Convex Functions}
+  \small
+  \begin{tcolorbox}[defbox, title={Definition}, left=3pt, right=3pt, top=2pt, bottom=2pt]
+    $f:(a,b)\to\mathbb{R}$ is \textbf{operator monotone} if
+    $A\ge B \Rightarrow f(A)\ge f(B)$ (operator ordering).
+    \emph{Strictly stronger} than scalar monotonicity.
+  \end{tcolorbox}
+
+  \textbf{Examples on $(0,\infty)$:} $f(x)=-1/x$,\; $f(x)=x^p$ ($p\in[0,1]$),\; $f(x)=\log(1+x)$.
+
+  \begin{tcolorbox}[mathbox, left=3pt, right=3pt, top=1pt, bottom=1pt]
+    \textbf{Integral repr.\ } ($0<p<1$):\;
+    $x^p = \tfrac{\sin(\pi p)}{p}\int_0^\infty t^p\!\left[\tfrac{1}{t}-\tfrac{1}{t+x}\right]dt
+    \;\Rightarrow\; A^p - B^p \ge 0$ whenever $A\ge B$.
+  \end{tcolorbox}
+
+  \begin{block}{Loewner's Theorem}
+    $f:(0,\infty)\to\mathbb{R}$ is operator monotone $\Leftrightarrow$ $f$ extends
+    analytically to $\mathbb{C}\setminus(-\infty,0]$ with the \emph{Herglotz property}:
+    $\mathrm{Im}(f(z))\ge 0$ whenever $\mathrm{Im}(z)>0$.
+  \end{block}
+
+  \begin{alertblock}{Key duality}
+    $f$ op.-convex on $(0,\infty)$, $f(0)=0$ $\Leftrightarrow$ $g(x)=f(x)/x$ op.-monotone.\\
+    $f$ op.-concave $\Leftrightarrow$ $f$ op.-monotone.
+  \end{alertblock}
+\end{frame}
+
+% ══════════════════════════════════════════════════════════════════════════════
+\section{The Trace Functional}
+% ══════════════════════════════════════════════════════════════════════════════
+
+\begin{frame}[shrink=10]{Trace --- Definition \& Fundamental Properties}
+  \small
+  \begin{tcolorbox}[defbox, title={Definition}, left=3pt, right=3pt, top=2pt, bottom=2pt]
+    For any ONB $\{\varphi_n\}_{n=1}^N$ of $\Hilb$:
+    \[
+      \tr(A) = \sum_{n=1}^N \ip{\varphi_n}{A\varphi_n}
+      \quad \text{(independent of the ONB chosen).}
+    \]
+  \end{tcolorbox}
+
+  For self-adjoint $A=\sum_\lambda\lambda P_\lambda$:
+  $\;\tr(A)=\sum_\lambda\lambda\,\dim(P_\lambda)$.
+
+  \vspace{0.15em}
+  \textbf{Fundamental properties:}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{itemize}\setlength\itemsep{1pt}
+        \item Linearity: $\tr(\lambda A+\mu B)=\lambda\tr A+\mu\tr B$
+        \item Conjugate: $\tr(A^*)=\overline{\tr(A)}$
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{itemize}\setlength\itemsep{1pt}
+        \item \textbf{Cyclicity}: $\tr(AB)=\tr(BA)$
+        \item Monotonicity: $A\ge B\Rightarrow\tr A\ge\tr B$
+      \end{itemize}
+    \end{column}
+  \end{columns}
+
+  \vspace{0.15em}
+  \begin{block}{Hilbert--Schmidt space}
+  \justifying
+    $\ip{A}{B}=\tr(A^*B)$ makes $\Bound(\Hilb)$ a Hilbert space.\\
+    Superoperators $\Phi:\Bound(\Hilb)\to\Bound(\Hilb)$ become operators on this inner product space, essential for quantum channel analysis.
+  \end{block}
+\end{frame}
+
+\begin{frame}[shrink=10]{Schatten $p$-Norms}
+  \small
+  The \textbf{absolute value} $|A|=\sqrt{A^*A}\ge 0$; its eigenvalues
+  $\{\mu_j(A)\}$ are the \emph{singular values}.
+
+  \begin{tcolorbox}[mathbox, left=3pt, right=3pt, top=1pt, bottom=1pt]
+    \textbf{Schatten $p$-norm} ($0<p<\infty$):\quad
+    $\norm{A}_p = \bigl(\tr|A|^p\bigr)^{1/p} = \bigl(\sum_j\mu_j(A)^p\bigr)^{1/p}$
+  \end{tcolorbox}
+
+  \begin{columns}[T]
+    \begin{column}{0.32\textwidth}
+      \begin{block}{$p=1$: trace norm}
+        $\norm{A}_1=\tr|A|$ \\(nuclear norm)
+      \end{block}
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \begin{block}{$p=2$: HS norm}
+        $\norm{A}_2=\sqrt{\tr(A^*A)}$ \\(inner product)
+      \end{block}
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \begin{block}{$p=\infty$: op.\ norm}
+        $\norm{A}_\infty=\max_j\mu_j(A)$
+      \end{block}
+    \end{column}
+  \end{columns}
+
+  \vspace{0.2em}
+  $p\mapsto\norm{A}_p$ is real-analytic and decreasing in $p$, with
+  $\lim_{p\to\infty}\norm{A}_p=\norm{A}_\infty$.
+
+  \vspace{0.2em}
+  \begin{tcolorbox}[mathbox, left=3pt, right=3pt, top=1pt, bottom=1pt]
+    $|\tr(A)| \le \norm{A}_1$\quad (polar decomp.\ + Cauchy--Schwarz).
+  \end{tcolorbox}
+\end{frame}
+
+\begin{frame}[shrink=10]{H\"older \& Minkowski Inequalities for Schatten Norms}
+  \small
+  \begin{tcolorbox}[thmbox={H\"older's Inequality}, left=3pt, right=3pt, top=2pt, bottom=2pt]
+    For $\tfrac{1}{p}+\tfrac{1}{q}=1$, $p,q\in[1,\infty]$:
+    \[
+      \norm{AB}_1 \le \norm{A}_p\,\norm{B}_q.
+    \]
+    Proof via \emph{Hadamard's three-line theorem}.
+  \end{tcolorbox}
+
+  \vspace{0.2em}
+  \begin{tcolorbox}[thmbox={Minkowski's Inequality}, left=3pt, right=3pt, top=2pt, bottom=2pt]
+    For $p\in[1,\infty)$:
+    \[
+      \norm{A+B}_p \le \norm{A}_p + \norm{B}_p.
+    \]
+    Hence $\norm{\cdot}_p$ is a norm on $\Bound(\Hilb)$ for $p\ge 1$.
+  \end{tcolorbox}
+
+  \vspace{0.2em}
+  \begin{block}{Duality formula (key to Minkowski proof)}
+    $\norm{T}_p = \sup_{\norm{S}_q\le 1}|\tr(ST)|.$\quad
+    Minkowski follows:
+    $\norm{A+B}_p \le \sup_{\norm{S}_q\le 1}(|\tr(SA)|+|\tr(SB)|)\le\norm{A}_p+\norm{B}_p$.
+  \end{block}
+\end{frame}
+
+\begin{frame}[shrink=10]{Trace Inequalities I --- Peierls--Bogolyubov \& Klein}
+  \small
+  \begin{tcolorbox}[thmbox={Peierls--Bogolyubov Inequality}, left=3pt, right=3pt, top=2pt, bottom=2pt]
+    For self-adjoint $A$, $B$ (quantum Jensen's inequality):
+    \[
+      \log\frac{\tr(e^A e^B)}{\tr(e^B)} \;\ge\; \frac{\tr(A e^B)}{\tr(e^B)}.
+    \]
+    Application: free-energy bounds in quantum statistical mechanics.
+  \end{tcolorbox}
+
+  \vspace{0.2em}
+  \begin{tcolorbox}[thmbox={Klein's Inequality}, left=3pt, right=3pt, top=2pt, bottom=2pt]
+    For $A>0$, $B>0$ (operator analogue of $x\log(x/y)\ge x-y$):
+    \[
+      \tr(A\log A - A\log B) \;\ge\; \tr(A-B), \quad\text{equality}\Leftrightarrow A=B,
+    \]
+    where $\tr(A\log B)=\sum_j\log\lambda_j(B)\,\bra{\psi_j}A\ket{\psi_j}$.
+  \end{tcolorbox}
+
+  \vspace{0.2em}
+  \begin{alertblock}{Significance}
+    Klein's inequality is the foundation of \textbf{quantum relative entropy}:
+    $S(\rho\|\sigma)=\tr(\rho\log\rho-\rho\log\sigma)\ge 0$.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}[shrink=10]{Trace Inequalities II --- Golden--Thompson \& ALT}
+  \small
+  \begin{tcolorbox}[thmbox={Golden--Thompson Inequality}, left=3pt, right=3pt, top=2pt, bottom=2pt]
+    For self-adjoint $A$, $B$:
+    \[
+      \tr(e^{A+B}) \;\le\; \tr(e^A e^B), \quad \text{equality}\Leftrightarrow [A,B]=0.
+    \]
+    Proof via Lie--Trotter: $\lim_{n\to\infty}(e^{A/n}e^{B/n})^n=e^{A+B}$.
+    Application: bounding partition functions in quantum stat.\ mech.
+  \end{tcolorbox}
+
+  \vspace{0.2em}
+  \begin{tcolorbox}[thmbox={Araki--Lieb--Thirring (ALT) Inequality}, left=3pt, right=3pt, top=2pt, bottom=2pt]
+    For $A\ge 0$, $B\ge 0$, $p>0$, $r\ge 1$:
+    \[
+      \tr\!\Bigl[\bigl(A^{1/2}BA^{1/2}\bigr)^{rp}\Bigr]
+      \;\le\;
+      \tr\!\Bigl[\bigl(A^{r/2}B^r A^{r/2}\bigr)^p\Bigr].
+    \]
+    Generalises Golden--Thompson; proves monotonicity of quantum relative entropies.
+  \end{tcolorbox}
+
+  \vspace{0.2em}
+  \begin{block}{Summary of inequalities}
+    \centering
+    Peierls-Bogolyubov $\cdot$ Klein (rel.\ entropy) $\cdot$ Golden-Thompson (partition fcns) $\cdot$ ALT (entropy monotonicity)
+  \end{block}
+\end{frame}
+
+% ══════════════════════════════════════════════════════════════════════════════
+\section{Quantum Probability}
+% ══════════════════════════════════════════════════════════════════════════════
+
+\begin{frame}[shrink=10]{The Lattice of Quantum Events}
+  \begin{columns}[T]
+    \begin{column}{0.47\textwidth}
+    \justifying
+      Quantum events: self-adjoint projections $P\in\Bound(\Hilb)$,
+      identified with closed subspaces via $P\leftrightarrow\mathrm{Ran}(P)$.
+
+      \vspace{0.3em}
+      \textbf{Lattice $\mathcal{L}(\Hilb)$ operations:}
+      \begin{itemize}
+        \item $P\le Q$: $\mathrm{Ran}(P)\subseteq\mathrm{Ran}(Q)$
+        \item $P\wedge Q$: proj.\ onto $\mathrm{Ran}(P)\cap\mathrm{Ran}(Q)$
+        \item $P\vee Q$: proj.\ onto $\overline{\mathrm{span}}(\mathrm{Ran}(P)\cup\mathrm{Ran}(Q))$
+        \item $P^\perp$: proj.\ onto $\mathrm{Ran}(P)^\perp$
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.51\textwidth}
+      \begin{alertblock}{Failure of Distributivity ($\dim\Hilb\ge 2$)}
+        \[
+          P\wedge(Q\vee R) \ne (P\wedge Q)\vee(P\wedge R)
+        \]
+        \textbf{Counterexample in $\mathbb{C}^2$:}
+        \justifying
+        three rank-one projections from
+        non-collinear unit vectors give $P\wedge Q=0$, $P\wedge R=0$, $Q\vee R=\Hilb$,
+        so $P\wedge(Q\vee R)=P\ne 0=\\
+        =\ (P\wedge Q)\vee(P\wedge R)$.
+      \end{alertblock}
+      \justifying
+      \small $\mathcal{L}(\Hilb)$ is an \emph{orthocomplemented lattice}, but \emph{not} a
+      Boolean algebra: the mathematical origin of quantum incompatibility.
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[shrink=10]{Density Matrices \& Gleason's Theorem}
+  \small
+  \begin{tcolorbox}[defbox, title={Quantum Probability Measure (QPM)}, left=3pt, right=3pt, top=2pt, bottom=2pt]
+    $\mu:\mathcal{L}(\Hilb)\to[0,1]$ with $\mu(0)=0$, $\mu(\mathbbm{1})=1$, and
+    additivity:\\
+    $\mu(P_1+\cdots+P_n)=\sum_j\mu(P_j)$ for mutually orthogonal $\{P_j\}$.
+  \end{tcolorbox}
+
+  A \textbf{density matrix} $\omega\ge 0$ with $\tr(\omega)=1$ induces a QPM via
+  $\mu(P)=\tr(\omega P)$.
+
+  \begin{tcolorbox}[thmbox={Gleason's Theorem (1957)}, left=3pt, right=3pt, top=2pt, bottom=2pt]
+    If $\dim\Hilb\ge 3$ and $\mu$ is any QPM on $\mathcal{L}(\Hilb)$, then $\exists\,!$
+    density matrix $\omega$ such that $\mu(P)=\tr(\omega P)$ for all $P$.
+  \end{tcolorbox}
+
+  \begin{alertblock}{Consequences}
+    \begin{itemize}\setlength\itemsep{1pt}
+      \item Density matrices are the \emph{universal} quantum probability measures.
+      \item No hidden-variable theory assigns definite values to all projections
+        simultaneously (Kochen--Specker theorem).
+      \item \textbf{Fails in dim 2}: QPMs on $\mathcal{L}(\mathbb{C}^2)$ not induced by any $\omega$ exist.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}[shrink=10]{Bloch Sphere Parametrisation (dim = 2)}
+  Density matrices on $\mathbb{C}^2$ correspond bijectively to vectors in the unit ball
+  $\mathbb{B}=\{\vec{a}\in\mathbb{R}^3\,:\,|\vec{a}|\le 1\}$ via:
+  \[
+    \omega_{\vec{a}} = \tfrac{1}{2}\bigl(\mathbbm{1}+\vec{a}\cdot\vec{\sigma}\bigr),
+    \qquad \vec\sigma=(\sigma_x,\sigma_y,\sigma_z) \text{ (Pauli matrices)}.
+  \]
+
+  \begin{columns}[T]
+    \begin{column}{0.55\textwidth}
+      \begin{block}{Pure states}
+        Correspond to unit vectors $|\vec{a}|=1$, forming the Bloch sphere $\mathbb{S}^2$.
+        \[
+          \omega \text{ pure} \Leftrightarrow \omega^2=\omega \Leftrightarrow \omega=\ket\psi\bra\psi
+        \]
+      \end{block}
+      \begin{block}{Chaotic state}
+        $\omega = \tfrac{1}{2}\mathbbm{1}$ corresponds to $\vec a=\vec 0$: maximum entropy,
+        \[S(\omega)=\log 2.\]
+      \end{block}
+    \end{column}
+    \begin{column}{0.43\textwidth}
+      \begin{alertblock}{Gleason fails in dim 2}
+      \justifying
+        A QPM on $\mathcal{L}(\mathbb{C}^2)$ can be defined by a
+        non-continuous function $\mathbb{S}^2\to\{0,1\}$
+        compatible with the lattice, which cannot equal
+        $P\mapsto\tr(\omega P)$ (always continuous).
+      \end{alertblock}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[shrink=10]{Quantum Random Variables \& Commutativity}
+  \small
+  A \textbf{quantum random variable (qrv)} is a self-adjoint $A\in\Bound(\Hilb)$.
+  Given density matrix $\omega$, the statistics of $A$ are encoded in
+  \[
+    P_A(\lambda_k) = \tr(\omega P_{\lambda_k}), \qquad A=\sum_k\lambda_k P_{\lambda_k}.
+  \]
+
+  \begin{tcolorbox}[thmbox={Commutativity and Classical Description}, left=3pt, right=3pt, top=2pt, bottom=2pt]
+    $A$ and $B$ commute $\Leftrightarrow$ they share a common ONB $\{\varphi_n\}$
+    with $A\varphi_n=\lambda_n\varphi_n$ and $B\varphi_n=\mu_n\varphi_n$.
+    Both are then simultaneously described by the classical space $(\{1,\dots,N\},P_{A/B})$.
+  \end{tcolorbox}
+
+  \begin{block}{Heisenberg Uncertainty Principle}
+    For self-adjoint $A$, $B$ and density matrix $\omega$:
+    \[
+      \sqrt{\Var_\omega(A)}\cdot\sqrt{\Var_\omega(B)} \;\ge\;
+      \tfrac{1}{2}\bigl|\tr\!\bigl(\omega\,[i(AB-BA)]\bigr)\bigr|.
+    \]
+  \end{block}
+
+  \begin{alertblock}{Non-commuting observables}
+    If $[A,B]\ne 0$, no classical probability space simultaneously describes their
+    joint statistics for all $\omega$: \emph{irreducible non-classicality}.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}[shrink=10]{Quantum Marginals \& Partial Trace}
+  \small
+  The tensor product $\Hilb=\Hilb_1\otimes\Hilb_2$ replaces $\Omega_1\times\Omega_2$.
+  Summing over one subsystem becomes the \textbf{partial trace}.
+
+  \begin{tcolorbox}[defbox, title={Partial trace}, left=3pt, right=3pt, top=2pt, bottom=2pt]
+    $A_1=\tr_{\Hilb_2}(A)\in\Bound(\Hilb_1)$ is characterised by
+    \[
+      \tr_\Hilb(A(X\otimes\mathbbm{1})) = \tr_{\Hilb_1}(A_1 X) \quad \forall\,X\in\Bound(\Hilb_1).
+    \]
+    Explicitly: $\langle g_l|A_2 g_m\rangle=\sum_j\langle f_j\otimes g_l|A(f_j\otimes g_m)\rangle$.
+  \end{tcolorbox}
+
+  \begin{alertblock}{Classical analogy fails: Entanglement}
+    \textbf{Bell state} on $\mathbb{C}^2\otimes\mathbb{C}^2$:
+    $\psi=\tfrac{1}{\sqrt{2}}(e_1\otimes e_2+e_2\otimes e_1)$.
+    The pure QPM $\omega=\ket\psi\bra\psi$ has:
+    \[
+      \omega_1 = \omega_2 = \tfrac{1}{2}\mathbbm{1} \quad\text{(chaotic state, maximal entropy)}.
+    \]
+    Pure composite state $\Rightarrow$ \emph{maximally mixed} subsystems.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}[shrink=10]{Entanglement \& Von Neumann Entropy}
+  \begin{tcolorbox}[defbox, title={Von Neumann Entropy}]
+    \[
+      S(\omega) = -\tr(\omega\log\omega) = -\sum_j\lambda_j(\omega)\log\lambda_j(\omega).
+    \]
+  \end{tcolorbox}
+
+  \begin{columns}[T]
+    \begin{column}{0.52\textwidth}
+      \textbf{Special values:}
+      \begin{itemize}
+        \item Pure state $\omega=\ket\psi\bra\psi$: \quad $S(\omega)=0$
+        \item Chaotic state $\omega=\tfrac{1}{N}\mathbbm{1}$: \quad $S(\omega)=\log N$\quad (max)
+        \item Bell state marginal: \quad $S(\omega_1)=S(\omega_2)=\log 2$
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.46\textwidth}
+      \begin{block}{Entanglement entropy}
+        For pure $\psi\in\Hilb_1\otimes\Hilb_2$:
+        \[
+          E_\mathrm{ent}(\psi)=S(\omega_1)=S(\omega_2).
+        \]
+        Bell state: $E_\mathrm{ent}=\log 2$ (max.\ for qubit).
+      \end{block}
+    \end{column}
+  \end{columns}
+
+  \vspace{0.3em}
+  \begin{alertblock}{Interpretation}
+    Entanglement is a purely quantum-informational resource with no classical analogue:
+    complete knowledge of the composite system is compatible with maximal uncertainty
+    about each subsystem.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}[shrink=10]{Classical vs.\ Quantum Stochastic Processes}
+  \small
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Classical Stochastic Process}
+        Family $(\Omega^N,P_N)_{N\ge 1}$ with compatibility:
+        \[P_N(\omega)=\sum_{\omega'}P_{N+M}(\omega,\omega').\]
+        Specific entropy:
+        \[s=\lim_{N}\tfrac{1}{N}S(P_N)=\inf_N\tfrac{S(P_N)}{N}.\]
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Quantum Stochastic Process}
+        Family $(\Hilb^N,\omega_N)_{N\ge 1}$ with compatibility:
+        \[\omega_N=\tr_{\Hilb_M}(\omega_{N+M}).\]
+        i.i.d.: $\omega_N=\rho^{\otimes N}$; specific entropy $=S(\rho)$.
+      \end{block}
+    \end{column}
+  \end{columns}
+
+  \vspace{0.2em}
+  \begin{tcolorbox}[mathbox, left=3pt, right=3pt, top=1pt, bottom=1pt]
+    Both satisfy \textbf{subadditivity}: $S(\omega_{N+M})\le S(\omega_N)+S(\omega_M)$;
+    the specific entropy $s=\lim \tfrac{1}{N}S(\omega_N)$ exists and equals the infimum.
+  \end{tcolorbox}
+
+  \begin{alertblock}{Connection to quantum measurement}
+  \justifying
+    When $\mathcal{U}=C(\Omega)$ and $\mathcal{R}=\Bound(\Hilb)$, the QMC
+    reduces to a classically-indexed process via quantum instruments
+    $\{E_\omega\}_{\omega\in\Omega}$: statistics of repeated measurements.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}[shrink=10]{Quantum Markov Chains \& $C^*$-Algebraic Framework}
+  \small
+  QMCs are constructed over $C^*$-algebras $\mathcal{U}$ (observable) and $\mathcal{R}$ (ancilla):
+  \begin{tcolorbox}[mathbox, left=3pt, right=3pt, top=2pt, bottom=2pt]
+    \textbf{Transition kernel} $E:\mathcal{U}\otimes\mathcal{R}\to\mathcal{R}$ (CP unital) and
+    \textbf{stationary state} $\rho$ on $\mathcal{R}$ with $\rho(E(\mathbbm{1}_\mathcal{U}\otimes B))=\rho(B)$.\\[2pt]
+    \textbf{QSP:} $\omega_N(A_1\otimes\cdots\otimes A_N)=\rho(E_{A_1}\circ\cdots\circ E_{A_N}(\mathbbm{1}_\mathcal{R}))$.
+  \end{tcolorbox}
+
+  \begin{block}{Gelfand--Naimark classification}
+    Every finite-dim.\ $C^*$-algebra $\cong \bigoplus_k\Bound(\Hilb_k)$.
+    Commutative $C^*$-algebra $\cong C(\Omega)$ $\Leftrightarrow$ classical probability space.
+  \end{block}
+
+  \begin{tcolorbox}[thmbox={Ergodic theorem for primitive channels}, left=3pt, right=3pt, top=2pt, bottom=2pt]
+    For a primitive (aperiodic) irreducible CP channel $\phi$:
+    \[
+      \phi^n(A)\xrightarrow{\,n\to\infty\,}\tr(A)\cdot X \quad \text{exponentially fast},
+    \]
+    the quantum analogue of the classical Markov chain ergodic theorem.
+  \end{tcolorbox}
+\end{frame}
+
+% ══════════════════════════════════════════════════════════════════════════════
+\section*{Conclusions}
+% ══════════════════════════════════════════════════════════════════════════════
+
+\begin{frame}[shrink=10]{Concluding Remarks}
+  \small
+  Three themes woven throughout the material:
+
+  \begin{tcolorbox}[thmbox={Algebraic and Analytic Interplay}, left=3pt, right=3pt, top=2pt, bottom=2pt]
+  \justifying
+    Interplay of $C^*$-algebras, tensor products, CP maps with trace inequalities,\\ 
+    operator monotone functions, and spectral theory.
+  \end{tcolorbox}
+
+  \vspace{0.15em}
+  \begin{tcolorbox}[thmbox={Classical and Quantum Probability}, left=3pt, right=3pt, top=2pt, bottom=2pt]
+  \justifying
+    Quantum probability reduces to classical for commuting observables;\\
+    the $C^*$-algebraic framework precisely demarcates the boundary.
+  \end{tcolorbox}
+
+  \vspace{0.15em}
+  \begin{tcolorbox}[thmbox={Mathematics and Physics}, left=3pt, right=3pt, top=2pt, bottom=2pt]
+  \justifying
+    Quantum measurement, entropy, channels, and statistical mechanics motivate every
+    mathematical choice throughout.
+  \end{tcolorbox}
+
+  \vspace{0.15em}
+  \begin{alertblock}{Prerequisites for advanced topics}
+    Quantum hypothesis testing $\cdot$ Quantum Fisher information $\cdot$
+    Entropy inequalities $\cdot$ Open quantum systems $\cdot$ Quantum error correction.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}[shrink=10]{Bibliography}
+  \footnotesize
+  \begin{thebibliography}{10}
+    \bibitem{jaksic2022} V.\ Jaksic. \textit{Linear Algebra of Quantum Mechanics}. Lecture Notes, McGill University, 2022.
+    \bibitem{jaksic_qsm} V.\ Jaksic. \textit{Quantum Statistical Mechanics}. Lecture Notes, McGill University.
+    \bibitem{jaksic_qef} V.\ Jaksic. \textit{Quantum Entropic Fluctuations}. Lecture Notes, McGill University.
+    \bibitem{wolf2012} M.\,M.\ Wolf. \textit{Quantum Channels and Operations: Guided Tour}. TU M\"unchen, 2012.
+    \bibitem{raquepas} R.\ Raquépas. \textit{Quantum Information Theory}. Lecture Notes, McGill University.
+    \bibitem{gleason1957} A.\,M.\ Gleason. Measures on the closed subspaces of a Hilbert space. \textit{J.\ Math.\ Mech.}, 1957.
+    \bibitem{petz2008} D.\ Petz. \textit{Quantum Information Theory and Quantum Statistics}. Springer, 2008.
+    \bibitem{evans1978} D.\ Evans \& R.\ H\o egh-Krohn. Spectral properties of positive maps on $C^*$-algebras. \textit{London Math.\ Soc.}, 1978.
+    \bibitem{fagnola2009} F.\ Fagnola \& R.\ Pellicer. Irreducible and periodic positive maps. \textit{Commun.\ Stoch.\ Analysis}, 2009.
+    \bibitem{putnam} I.\,F.\ Putnam. \textit{Lecture Notes on $C^*$-Algebras}. Classification of finite-dimensional $C^*$-algebras.
+  \end{thebibliography}
+\end{frame}
+
+\section{Proof \& Exercises}
+\begin{frame}{Proof \& Exercises}
+    \textcolor{gray}{(to be presented separately)}
+\end{frame}
+
+\end{document}
