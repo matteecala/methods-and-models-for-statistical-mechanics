@@ -54,8 +54,11 @@ Selected proofs of key results:
 ## 🗂️ Repository Contents
 
 ```
-├── main.tex          # Main LaTeX source file
-├── report.pdf        # Compiled PDF report
+├── main.tex                # Main LaTeX source file
+├── report.pdf              # Compiled PDF report
+├── Presentation
+│   ├── presentation.pdf    # Compiled PDF presentation
+│   └── main.tex            # Main LaTeX source file
 └── README.md
 ```
 
