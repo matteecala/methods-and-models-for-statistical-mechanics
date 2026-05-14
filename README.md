@@ -59,6 +59,9 @@ Selected proofs of key results:
 ├── Presentation
 │   ├── presentation.pdf    # Compiled PDF presentation
 │   └── main.tex            # Main LaTeX source file
+├── Speech
+│   ├── speech.pdf          # Compiled PDF speech
+│   └── main.tex            # Main LaTeX source file
 └── README.md
 ```
 
