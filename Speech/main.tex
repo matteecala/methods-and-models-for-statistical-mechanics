@@ -1,0 +1,95 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage[margin=3cm]{geometry}
+
+\title{Linear Algebra of Quantum Mechanics - Speech}
+\author{Matteo Calabrò}
+\date{May 2026}
+
+\begin{document}
+
+\maketitle
+
+\section*{Slide 1 - Title}
+The presentation I am illustrating today is titled Linear Algebra of Quantum Mechanics, developed within the course of Methods and Models for Statistical Mechanics. The work is based on the lecture notes by Vojkan Jaksic from McGill University, and is organized around three main areas: Hilbert space and operator theory, the trace functional, and quantum probability.
+
+\section*{Slide 2 - Table of Contents}
+The presentation follows this structure: we will start from Hilbert spaces and linear maps, move to the trace functional, then to quantum probability, and conclude with some final remarks and the section* on proofs and exercises, which will be presented separately.
+
+\section*{Slide 3 - Definition of Hilbert Space}
+A Hilbert space $\mathcal{H}$ is a complex vector space equipped with an inner product satisfying linearity, anti-linearity, conjugate symmetry, and positive definiteness. Completeness — the convergence of every Cauchy sequence with respect to the induced norm — is the property that distinguishes a Hilbert space from a generic inner product space. In the finite-dimensional setting we consider, this property is automatic: every $\mathbb{C}^N$ is isomorphic to $\mathcal{H}$ via any orthonormal basis.
+
+\section*{Slide 4 - Orthonormal Basis and Parseval Identity}
+Given an orthonormal basis $\{e_n\}$, every vector decomposes via the Fourier formula, with coefficients $a_n = \langle e_n,\varphi \rangle$. The Parseval identity expresses the inner product in terms of these coefficients. For linear operators $A \in B(\mathcal{H},\mathcal{K})$, the operator norm is defined as the supremum of the norm of the image over unit vectors, and the operator is completely determined by its matrix elements with respect to the chosen bases.
+
+\section*{Slide 5 - Adjoints and the C-Identity}
+The adjoint $A^*$ of an operator $A \in B(\mathcal{H},\mathcal{K})$ is the unique operator in $B(\mathcal{K},\mathcal{H})$ such that $$\langle \varphi,A\psi \rangle = \langle A^*\varphi,\psi \rangle.$$ Among its fundamental properties, the identity $||AA^*|| = A^2$ — known as the $C^*$-identity — is the algebraic cornerstone distinguishing $C^*$-algebras from general Banach algebras, simultaneously encoding algebraic structure and norm.
+
+\section*{Slide 6 - Distinguished Classes of Operators}
+We distinguish four fundamental classes. \textbf{Self-adjoint} operators ($A = A^*$) have real eigenvalues and model physical observables. \textbf{Normal} operators decompose as the sum of two self-adjoint operators. \textbf{Unitary} operators preserve the inner product and model symmetries. \textbf{Projections} satisfy $P^2 = P$, and are orthogonal if additionally $P = P^*$; in the rank-one case, $P = |\varphi\rangle\langle\psi|$ with $\langle\varphi|\psi\rangle=1$.
+
+\section*{Slide 7 - Spectral Theory}
+Spectral theory is the foundation of the measurement postulate: eigenvalues are the possible outcomes of a measurement, and eigenprojections are the corresponding events. In finite dimensions, $\lambda \in sp(A)$ is equivalent to $\lambda$ being an eigenvalue. We distinguish geometric and algebraic multiplicity, with $m(\lambda) \leq \mu(\lambda)$, with equality for self-adjoint operators. The abstract Jordan decomposition expresses $A$ in a coordinate-free form via projections and nilpotent parts.
+
+\section*{Slide 8 - Spectral Theorem for Self-Adjoint Operators}
+For a self-adjoint operator, the spectral theorem guarantees that all eigenvalues are real and semi-simple, the eigenprojections are orthogonal, and the space decomposes as the orthogonal direct sum of eigenspaces. This enables the functional calculus: $f(A) = \sum_jf(\lambda_j)P_{\lambda_j}$, with natural algebraic properties. The functional calculus is essential for defining $e^A$, $logA$, and fractional powers of operators.
+
+\section*{Slide 9 - Completely Positive Maps and Quantum Channels}
+Superoperators $\Phi:B(\mathcal{H})\rightarrow B(\mathcal{H})$ are maps between operators. \newline Simple positivity — $X \geq0\Rightarrow \Phi(X)\geq0$ — is not sufficient for quantum-mechanical consistency: the transpose map on $B(\mathbb{C}^2)$ is positive but not 2-positive.\newline The correct notion is that of \textbf{complete positivity}. The Kraus-Stinespring theorem characterizes CP maps via the decomposition $\Phi(X)=\sum_jV_jXV_j^*$. A quantum channel is a CP unital map, whose adjoint operates in the Schrödinger picture.
+
+\section*{Slide 10 - Perron-Frobenius Theory for CP Maps}
+The classical Perron-Frobenius theory extends to positive maps on $B(\mathcal{H})$. For an irreducible CP map, there exists a unique strictly positive fixed point with unit trace, along with a spectral gap structure. For primitive channels — those of period one — exponential convergence to the stationary state is obtained. This constitutes the foundation of the ergodic theory of quantum Markov chains.
+
+\section*{Slide 11 - Operator Monotone and Operator Convex Functions}
+A function is operator monotone if it preserves the ordering of operators, a property strictly stronger than scalar monotonicity. Examples on $(0,\infty)$
+include $f(x)=-1/x$ and $f(x)=x^p$ for $p \in [0,1]$. Loewner's theorem provides the complete characterization: $f$ is operator monotone if and only if it extends analytically to $\mathbb{C} \setminus (-\infty, 0]$ with the Herglotz property. A fundamental duality result connects operator monotonicity to operator convexity.
+\newpage
+
+\section*{Slide 12 - Trace: Definition and Fundamental Properties}
+The trace of $A \in B(\mathcal{H})$ is defined as $\mathrm{tr}(A) = \sum_n \langle \varphi_n, A\varphi_n \rangle$ for any orthonormal basis — the result is independent of the choice of basis. For a self-adjoint operator it equals the sum of eigenvalues counted with multiplicity. The fundamental properties are: linearity, conjugation, \textbf{cyclicity} $\mathrm{tr}(AB) = \mathrm{tr}(BA)$, and monotonicity. The trace induces the Hilbert-Schmidt inner product $\langle A, B \rangle = \mathrm{tr}(A^*B)$, making $B(\mathcal{H})$ itself a Hilbert space.
+
+\section*{Slide 13 - Schatten p-Norms}
+The singular values of $A$ are the eigenvalues of $|A| = \sqrt{A^*A}$. \newline The Schatten-$p$ norm is $\|A\|_p = (\mathrm{tr}|A|^p)^{1/p}$. The notable cases are: $p=1$ the trace norm, $p=2$ the Hilbert-Schmidt norm with inner product, $p=\infty$ the operator norm. The function $p \mapsto \|A\|_p$ is real analytic and decreasing, with limit $\|A\|_\infty$ as $p \to \infty$.
+
+\section*{Slide 14 - Hölder and Minkowski Inequalities for Schatten Norms}
+The Schatten norms satisfy a Hölder inequality — $\|AB\|_1 \leq \|A\|_p \|B\|_q$
+for $\frac{1}{p}+\frac{1}{q}=1$ — whose proof uses Hadamard's three-line theorem. From this follows the duality formula $\|T\|_p = \sup_{\|S\|_q \leq 1} |\mathrm{tr}(ST)|$, which in turn implies the Minkowski inequality and therefore that $\|\cdot\|_p$ is indeed a norm for $p \geq 1$.
+
+\section*{Slide 15 - Trace Inequalities I: Peierls-Bogolyubov and Klein}
+The Peierls-Bogolyubov inequality is the quantum analogue of Jensen's inequality for exponential functions, and finds application in free energy bounds. \newline Klein's inequality — $\mathrm{tr}(A \log A - A \log B) \geq \mathrm{tr}(A - B)$ — is the foundation of quantum relative entropy $S(\rho \| \sigma) = \mathrm{tr}(\rho \log \rho - \rho \log \sigma) \geq 0$, with equality if and only if $A = B$.
+
+\section*{Slide 16 - Trace Inequalities II: Golden-Thompson and ALT}
+The Golden-Thompson inequality states that $\mathrm{tr}(e^{A+B}) \leq \mathrm{tr}(e^A e^B)$, with equality if and only if $A$ and $B$ commute. The proof uses the Lie-Trotter product formula, and the inequality is fundamental for bounding partition functions in quantum statistical mechanics. The Araki-Lieb-Thirring inequality generalizes Golden-Thompson and is used to prove monotonicity of quantum relative entropies.
+
+\section*{Slide 17 - The Lattice of Quantum Events}
+In classical probability, events are subsets of a sample space. In quantum probability, they are the self-adjoint projections on $\mathcal{H}$, identified with closed subspaces. The set $L(\mathcal{H})$ forms an orthocomplemented lattice with intersection and union operations between subspaces. The crucial structural difference from the classical case is the \textbf{failure of distributivity} for $\dim \mathcal{H} \geq 2$: this is the mathematical origin of quantum incompatibility between non-commuting observables.
+\newpage
+
+\section*{Slide 18 - Density Matrices and Gleason's Theorem}
+A quantum probability measure (QPM) is an additive map on $L(\mathcal{H})$ with values in $[0,1]$. Every density matrix $\omega \geq 0$ with $\mathrm{tr}(\omega) = 1$ induces one via $\mu(P) = \mathrm{tr}(\omega P)$. Gleason's theorem of 1957 establishes the converse: for $\dim \mathcal{H} \geq 3$, every QPM is induced by a unique density matrix. The consequence is profound: no hidden-variable theory can assign definite values to all projections simultaneously — this is the content of the Kochen-Specker theorem. The theorem \textbf{fails} in dimension 2.
+
+\section*{Slide 19 - Bloch Sphere (dim = 2)}
+In dimension 2, density matrices on $\mathbb{C}^2$ correspond bijectively to vectors in the unit ball of $\mathbb{R}^3$ via $\omega_{\vec{a}} = \frac{1}{2}(\mathbf{1} + \vec{a} \cdot \vec{\sigma})$, with $\vec{\sigma}$ the Pauli matrices. Pure states correspond to the sphere $|\vec{a}|=1$. The chaotic state $\frac{1}{2}\mathbf{1}$, with $\vec{a} = 0$, has maximum entropy $\log 2$. The failure of Gleason in dimension 2 is explained geometrically here: a QPM could be defined by a discontinuous function on $S^2$, which cannot coincide with $P \mapsto \mathrm{tr}(\omega P)$, which is always continuous.
+
+\section*{Slide 20 - Quantum Random Variables and Commutativity}
+A quantum random variable is a self-adjoint operator $A \in B(\mathcal{H})$. Given a density matrix $\omega$, the statistics of $A$ are described by the measure $P_A(\lambda_k) = \mathrm{tr}(\omega P_{\lambda_k})$. Two observables $A$ and $B$ commute if and only if they share a common orthonormal basis of eigenvectors, and in that case admit a simultaneous classical probabilistic description. If $[A, B] \neq 0$, no classical probability space can describe their joint statistics for every $\omega$: this is the mathematical content of the Heisenberg uncertainty principle.
+
+\section*{Slide 21 - Quantum Marginals and Partial Trace}
+The tensor product $\mathcal{H}_1 \otimes \mathcal{H}_2$ replaces the classical Cartesian product $\Omega_1 \times \Omega_2$. The operation of summing over one variable becomes the \textbf{partial trace}. The phenomenon of entanglement emerges here with full force: the Bell state $\psi = \frac{1}{\sqrt{2}}(e_1 \otimes e_2 + e_2 \otimes e_1)$ is a pure state of the composite system, yet its marginals are $\omega_1 = \omega_2 = \frac{1}{2}\mathbf{1}$, the state of maximum entropy. Complete knowledge of the composite system is compatible with maximal uncertainty about the subsystems.
+
+\section*{Slide 22 - Entanglement and Von Neumann Entropy}
+The von Neumann entropy is defined as $S(\omega) = -\mathrm{tr}(\omega \log \omega)$. It vanishes on pure states and reaches its maximum $\log N$ on the chaotic state. The entanglement of a pure state $\psi \in \mathcal{H}_1 \otimes \mathcal{H}_2$ is quantified precisely by the entropy of the marginal: $E_\mathrm{ent}(\psi) = S(\omega_1) = S(\omega_2)$. For the Bell state, $E_\mathrm{ent} = \log 2$, the maximum for a qubit subsystem. Entanglement is a purely quantum resource, with no classical analogue.
+
+\section*{Slide 23 - Classical and Quantum Stochastic Processes}
+A classical stochastic process is a family of probability spaces compatible under marginalization. The quantum analogue replaces $\Omega^N$ with $\mathcal{H}^{\otimes N}$, and compatibility is expressed by the partial trace. In both cases, subadditivity of entropy holds: $S(\omega_{N+M}) \leq S(\omega_N) + S(\omega_M)$, from which the specific entropy $s = \lim \frac{1}{N} S(\omega_N)$ exists. The i.i.d. process $\omega_N = \rho^{\otimes N}$ has specific entropy $S(\rho)$.
+
+\section*{Slide 24 - Quantum Markov Chains and the C-Algebraic Framework}
+Quantum Markov chains are built over $C^*$-algebras via a completely positive unital transition kernel and a stationary state. The Gelfand-Naimark theorem classifies every finite-dimensional $C^*$-algebra as a direct sum of matrix algebras; commutative $C^*$-algebras correspond to classical probability spaces. For a primitive irreducible channel, the quantum ergodic theorem guarantees exponential convergence $\varphi^n(A) \to \mathrm{tr}(A) \cdot X$: the quantum analogue of the classical Markov chain ergodic theorem.
+
+\section*{Slide 25 - Conclusions}
+Three themes run throughout the entire material. First, the constant interplay between algebraic structure — $C^*$-algebras, tensor products, CP maps — and analytic content — trace inequalities, operator monotone functions, spectral theory. Second, the relationship between classical and quantum probability: quantum probability reduces to classical for commuting observables, and the $C^*$-algebraic framework precisely delineates this boundary. Third, the connection to physics: quantum measurement, channels, entropy, and statistical mechanics motivate every mathematical choice. The material presented constitutes the prerequisite for advanced topics such as quantum hypothesis testing, quantum Fisher information, and the theory of open quantum systems.
+
+\section*{Slide 27 - Proofs and Exercises}
+The section on proofs and exercises will be presented separately. 
+
+\end{document}
